@@ -9,6 +9,8 @@ dependencies = [
     "uvicorn[standard]",
     "pymupdf>=1.24.0,<1.26",
     "python-multipart",
+    "qdrant-client>=1.9",
+    "python-dotenv>=1.0",
 ]
 
 [tool.uv]
