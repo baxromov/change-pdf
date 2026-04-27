@@ -83,9 +83,43 @@ Count occurrences without modifying the PDF.
 
 ```
 change-pdf/
-├── main.py          # FastAPI app + PDF processing logic
+├── main.py                  # FastAPI app + PDF processing logic
+├── migrate_collection.py    # Qdrant collection migration script
 ├── static/
-│   └── index.html   # Frontend UI
-├── pyproject.toml   # Project metadata & dependencies
-└── uv.lock          # Locked dependency versions
+│   └── index.html           # Frontend UI
+├── pyproject.toml           # Project metadata & dependencies
+├── .env.example             # Qdrant credentials template
+└── uv.lock                  # Locked dependency versions
 ```
+
+---
+
+## Qdrant Collection Migration
+
+`migrate_collection.py` duplicates the `hr-assistent` Qdrant collection into a new `hr-assistant-v2` collection, removing all Ipoteka-Bank / OTP Group brand references from the `page_content` payload field. The original collection is never modified.
+
+### Setup
+
+```bash
+cp .env.example .env
+# Edit .env and set your QDRANT_URL and QDRANT_API_KEY
+```
+
+### Run
+
+```bash
+python migrate_collection.py
+```
+
+### What it does
+
+- Connects to remote Qdrant using credentials from `.env`
+- Reads all points from `hr-assistent` (paginated)
+- Strips these patterns from `page_content` (case-insensitive):
+  - `Ipoteka-Bank` / `Ipoteka Bank`
+  - `Ипотека-Банк` (Cyrillic)
+  - `ОАО «Ипотека-Банк»` (legal name)
+  - `OTP Group`
+- Creates `hr-assistant-v2` with the cleaned data
+- Prints a summary: total points copied and how many had text removed
+- If `hr-assistant-v2` already exists, prompts before overwriting
