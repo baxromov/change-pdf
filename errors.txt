@@ -1,44 +1,29 @@
-(change-pdf) PS C:\Users\bakhromovshb\Projects\change-pdf> pip list
-Package           Version
------------------ ---------
-annotated-doc     0.0.4
-annotated-types   0.7.0
-anyio             4.13.0
-certifi           2026.4.22
-click             8.3.3
-colorama          0.4.6
-fastapi           0.136.1
-grpcio            1.80.0
-h11               0.16.0
-h2                4.3.0
-hpack             4.1.0
-httpcore          1.0.9
-httptools         0.7.1
-httpx             0.28.1
-hyperframe        6.1.0
-idna              3.13
-numpy             2.4.4
-pip               25.3
-portalocker       3.2.0
-protobuf          7.34.1
-pydantic          2.13.3
-pydantic_core     2.46.3
-PyMuPDF           1.25.5
-python-dotenv     1.2.2
-python-multipart  0.0.27
-pywin32           311
-PyYAML            6.0.3
-qdrant-client     1.17.1
-starlette         1.0.0
-typing_extensions 4.15.0
-typing-inspection 0.4.2
-urllib3           2.6.3
-uvicorn           0.46.0
-watchfiles        1.1.1
-websockets        16.0
-(change-pdf) PS C:\Users\bakhromovshb\Projects\change-pdf> python .\migrate_collection.py
-Traceback (most recent call last):
-  File "C:\Users\bakhromovshb\Projects\change-pdf\migrate_collection.py", line 17, in <module>
-    from qdrant_client import QdrantClient
-ModuleNotFoundError: No module named 'qdrant_client'
+(change-pdf) PS C:\Users\bakhromovshb\Projects\change-pdf> uv run python migrate_collection.py
+warning: The `tool.uv.dev-dependencies` field (used in `pyproject.toml`) is deprecated and will be removed in a future release; use `dependency-groups.dev` instead
+error: Request failed after 3 retries in 8.7s
+  Caused by: Failed to download https://github.com/astral-sh/python-build-standalone/releases/download/20260325/cpython-3.13.12%2B20260325-x86_64-pc-windows-msvc-install_only_stripped.tar.gz
+  Caused by: error sending request for url (https://github.com/astral-sh/python-build-standalone/releases/download/20260325/cpython-3.13.12%2B20260325-x86_64-pc-windows-msvc-install_only_stripped.tar.gz)
+  Caused by: client error (Connect)
+  Caused by: invalid peer certificate: UnknownIssuer
+(change-pdf) PS C:\Users\bakhromovshb\Projects\change-pdf> uv run python migrate_collection.py
+warning: The `tool.uv.dev-dependencies` field (used in `pyproject.toml`) is deprecated and will be removed in a future release; use `dependency-groups.dev` instead
+error: Request failed after 3 retries in 12.3s
+  Caused by: Failed to download https://github.com/astral-sh/python-build-standalone/releases/download/20260325/cpython-3.13.12%2B20260325-x86_64-pc-windows-msvc-install_only_stripped.tar.gz
+  Caused by: error sending request for url (https://github.com/astral-sh/python-build-standalone/releases/download/20260325/cpython-3.13.12%2B20260325-x86_64-pc-windows-msvc-install_only_stripped.tar.gz)
+  Caused by: client error (Connect)
+  Caused by: invalid peer certificate: UnknownIssuer
+(change-pdf) PS C:\Users\bakhromovshb\Projects\change-pdf> uv run python migrate_collection.py
+warning: The `tool.uv.dev-dependencies` field (used in `pyproject.toml`) is deprecated and will be removed in a future release; use `dependency-groups.dev` instead
+error: Request failed after 3 retries in 13.3s
+  Caused by: Failed to download https://github.com/astral-sh/python-build-standalone/releases/download/20260325/cpython-3.13.12%2B20260325-x86_64-pc-windows-msvc-install_only_stripped.tar.gz
+  Caused by: error sending request for url (https://github.com/astral-sh/python-build-standalone/releases/download/20260325/cpython-3.13.12%2B20260325-x86_64-pc-windows-msvc-install_only_stripped.tar.gz)
+  Caused by: client error (Connect)
+  Caused by: invalid peer certificate: UnknownIssuer
+(change-pdf) PS C:\Users\bakhromovshb\Projects\change-pdf> uv run python
+warning: The `tool.uv.dev-dependencies` field (used in `pyproject.toml`) is deprecated and will be removed in a future release; use `dependency-groups.dev` instead
+error: Request failed after 3 retries in 6.1s
+  Caused by: Failed to download https://github.com/astral-sh/python-build-standalone/releases/download/20260325/cpython-3.13.12%2B20260325-x86_64-pc-windows-msvc-install_only_stripped.tar.gz
+  Caused by: error sending request for url (https://github.com/astral-sh/python-build-standalone/releases/download/20260325/cpython-3.13.12%2B20260325-x86_64-pc-windows-msvc-install_only_stripped.tar.gz)
+  Caused by: client error (Connect)
+  Caused by: invalid peer certificate: UnknownIssuer
 (change-pdf) PS C:\Users\bakhromovshb\Projects\change-pdf>
