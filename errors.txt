@@ -1,29 +1,68 @@
 (change-pdf) PS C:\Users\bakhromovshb\Projects\change-pdf> uv run python migrate_collection.py
 warning: The `tool.uv.dev-dependencies` field (used in `pyproject.toml`) is deprecated and will be removed in a future release; use `dependency-groups.dev` instead
-error: Request failed after 3 retries in 8.7s
-  Caused by: Failed to download https://github.com/astral-sh/python-build-standalone/releases/download/20260325/cpython-3.13.12%2B20260325-x86_64-pc-windows-msvc-install_only_stripped.tar.gz
-  Caused by: error sending request for url (https://github.com/astral-sh/python-build-standalone/releases/download/20260325/cpython-3.13.12%2B20260325-x86_64-pc-windows-msvc-install_only_stripped.tar.gz)
-  Caused by: client error (Connect)
-  Caused by: invalid peer certificate: UnknownIssuer
+C:\Users\bakhromovshb\Projects\change-pdf\migrate_collection.py:51: UserWarning: Api key is used with an insecure connection.
+  return QdrantClient(url=url, api_key=api_key)
+ERROR: collection "hr-assistent" not found in Qdrant
 (change-pdf) PS C:\Users\bakhromovshb\Projects\change-pdf> uv run python migrate_collection.py
 warning: The `tool.uv.dev-dependencies` field (used in `pyproject.toml`) is deprecated and will be removed in a future release; use `dependency-groups.dev` instead
-error: Request failed after 3 retries in 12.3s
-  Caused by: Failed to download https://github.com/astral-sh/python-build-standalone/releases/download/20260325/cpython-3.13.12%2B20260325-x86_64-pc-windows-msvc-install_only_stripped.tar.gz
-  Caused by: error sending request for url (https://github.com/astral-sh/python-build-standalone/releases/download/20260325/cpython-3.13.12%2B20260325-x86_64-pc-windows-msvc-install_only_stripped.tar.gz)
-  Caused by: client error (Connect)
-  Caused by: invalid peer certificate: UnknownIssuer
-(change-pdf) PS C:\Users\bakhromovshb\Projects\change-pdf> uv run python migrate_collection.py
-warning: The `tool.uv.dev-dependencies` field (used in `pyproject.toml`) is deprecated and will be removed in a future release; use `dependency-groups.dev` instead
-error: Request failed after 3 retries in 13.3s
-  Caused by: Failed to download https://github.com/astral-sh/python-build-standalone/releases/download/20260325/cpython-3.13.12%2B20260325-x86_64-pc-windows-msvc-install_only_stripped.tar.gz
-  Caused by: error sending request for url (https://github.com/astral-sh/python-build-standalone/releases/download/20260325/cpython-3.13.12%2B20260325-x86_64-pc-windows-msvc-install_only_stripped.tar.gz)
-  Caused by: client error (Connect)
-  Caused by: invalid peer certificate: UnknownIssuer
-(change-pdf) PS C:\Users\bakhromovshb\Projects\change-pdf> uv run python
-warning: The `tool.uv.dev-dependencies` field (used in `pyproject.toml`) is deprecated and will be removed in a future release; use `dependency-groups.dev` instead
-error: Request failed after 3 retries in 6.1s
-  Caused by: Failed to download https://github.com/astral-sh/python-build-standalone/releases/download/20260325/cpython-3.13.12%2B20260325-x86_64-pc-windows-msvc-install_only_stripped.tar.gz
-  Caused by: error sending request for url (https://github.com/astral-sh/python-build-standalone/releases/download/20260325/cpython-3.13.12%2B20260325-x86_64-pc-windows-msvc-install_only_stripped.tar.gz)
-  Caused by: client error (Connect)
-  Caused by: invalid peer certificate: UnknownIssuer
+C:\Users\bakhromovshb\Projects\change-pdf\migrate_collection.py:51: UserWarning: Api key is used with an insecure connection.
+  return QdrantClient(url=url, api_key=api_key)
+Created collection "hr-assistant-v2".
+Traceback (most recent call last):
+  File "C:\Users\bakhromovshb\Projects\change-pdf\migrate_collection.py", line 147, in <module>
+    main()
+    ~~~~^^
+  File "C:\Users\bakhromovshb\Projects\change-pdf\migrate_collection.py", line 135, in main
+    client.upsert(collection_name=TARGET, points=cleaned_points)
+    ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\bakhromovshb\Projects\change-pdf\.venv\Lib\site-packages\qdrant_client\qdrant_client.py", line 944, in upsert
+    return self._client.upsert(
+           ~~~~~~~~~~~~~~~~~~~^
+        collection_name=collection_name,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<7 lines>...
+        **kwargs,
+        ^^^^^^^^^
+    )
+    ^
+  File "C:\Users\bakhromovshb\Projects\change-pdf\.venv\Lib\site-packages\qdrant_client\qdrant_remote.py", line 1179, in upsert
+    http_result = self.openapi_client.points_api.upsert_points(
+                  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        collection_name=collection_name,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<3 lines>...
+        timeout=timeout,
+        ^^^^^^^^^^^^^^^^
+    ).result
+    ^
+  File "C:\Users\bakhromovshb\Projects\change-pdf\.venv\Lib\site-packages\qdrant_client\http\api\points_api.py", line 1056, in upsert_points
+    return self._build_for_upsert_points(
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        collection_name=collection_name,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<3 lines>...
+        point_insert_operations=point_insert_operations,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\bakhromovshb\Projects\change-pdf\.venv\Lib\site-packages\qdrant_client\http\api\points_api.py", line 542, in _build_for_upsert_points
+    return self.api_client.request(
+           ~~~~~~~~~~~~~~~~~~~~~~~^
+        type_=m.InlineResponse2007,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<5 lines>...
+        content=body,
+        ^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\bakhromovshb\Projects\change-pdf\.venv\Lib\site-packages\qdrant_client\http\api_client.py", line 95, in request
+    return self.send(request, type_)
+           ~~~~~~~~~^^^^^^^^^^^^^^^^
+  File "C:\Users\bakhromovshb\Projects\change-pdf\.venv\Lib\site-packages\qdrant_client\http\api_client.py", line 130, in send
+    raise UnexpectedResponse.for_response(response)
+qdrant_client.http.exceptions.UnexpectedResponse: Unexpected Response: 400 (Bad Request)
+Raw response content:
+b'{"status":{"error":"Wrong input: Not existing vector name error: sparse"},"time":0.011056157}'
 (change-pdf) PS C:\Users\bakhromovshb\Projects\change-pdf>
+QDRANT_URL=http://172.31.174.11:6333
+QDRANT_API_KEY=supersecret123

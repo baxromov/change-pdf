@@ -19,7 +19,7 @@ from qdrant_client.models import Distance, PointStruct, VectorParams
 
 load_dotenv()
 
-SOURCE = "hr-assistent"
+SOURCE = "hr-assistant"
 TARGET = "hr-assistant-v2"
 SCROLL_BATCH = 100
 
