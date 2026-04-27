@@ -108,8 +108,10 @@ cp .env.example .env
 ### Run
 
 ```bash
-python migrate_collection.py
+uv run python migrate_collection.py
 ```
+
+> **Windows note:** Do not use plain `python migrate_collection.py`. On Windows, `python` may resolve to a different interpreter than the one `uv` manages, causing `ModuleNotFoundError`. Always use `uv run python` so the correct virtual environment is used.
 
 ### What it does
 
@@ -122,4 +124,5 @@ python migrate_collection.py
   - `OTP Group`
 - Creates `hr-assistant-v2` with the cleaned data
 - Prints a summary: total points copied and how many had text removed
-- If `hr-assistant-v2` already exists, prompts before overwriting
+- If `hr-assistant-v2` already exists and is fully migrated, exits immediately (no re-copy)
+- If `hr-assistant-v2` is partially migrated, resumes from where it left off
