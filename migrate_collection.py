@@ -59,14 +59,19 @@ def main() -> None:
     if SOURCE not in existing:
         sys.exit(f'ERROR: collection "{SOURCE}" not found in Qdrant')
 
-    # Guard against overwriting target
+    # If target already exists, skip — no need to re-copy vectors
     if TARGET in existing:
-        print(f'WARNING: collection "{TARGET}" already exists.')
-        answer = input('Delete and recreate it? [y/N]: ').strip().lower()
-        if answer != 'y':
-            sys.exit('Aborted.')
-        client.delete_collection(TARGET)
-        print(f'Deleted existing "{TARGET}".')
+        src_count = client.count(SOURCE).count
+        tgt_count = client.count(TARGET).count
+        if tgt_count >= src_count:
+            sys.exit(
+                f'"{TARGET}" already exists with {tgt_count} points '
+                f'(source has {src_count}). Nothing to do.'
+            )
+        print(
+            f'"{TARGET}" exists but is incomplete ({tgt_count}/{src_count} points). '
+            'Resuming migration…'
+        )
 
     # Read source vector config
     info = client.get_collection(SOURCE)
@@ -84,8 +89,16 @@ def main() -> None:
             distance=vectors_config.distance,
         )
 
-    client.create_collection(TARGET, vectors_config=target_vectors)
-    print(f'Created collection "{TARGET}".')
+    if TARGET not in existing:
+        client.create_collection(TARGET, vectors_config=target_vectors)
+        print(f'Created collection "{TARGET}".')
+
+    existing_ids: set = set()
+    if TARGET in existing:
+        ids_result, _ = client.scroll(
+            collection_name=TARGET, limit=10_000, with_vectors=False, with_payload=False
+        )
+        existing_ids = {pt.id for pt in ids_result}
 
     # Scroll, clean, upsert
     total = modified = 0
@@ -104,6 +117,9 @@ def main() -> None:
 
         cleaned_points: list[PointStruct] = []
         for pt in results:
+            if pt.id in existing_ids:
+                total += 1
+                continue
             payload = dict(pt.payload or {})
             if 'page_content' in payload:
                 original = payload['page_content']
@@ -115,8 +131,9 @@ def main() -> None:
                 PointStruct(id=pt.id, vector=pt.vector, payload=payload)
             )
 
-        client.upsert(collection_name=TARGET, points=cleaned_points)
-        total += len(results)
+        if cleaned_points:
+            client.upsert(collection_name=TARGET, points=cleaned_points)
+        total += len(cleaned_points)
         print(f'  processed {total} points...', end='\r')
 
         if offset is None:
