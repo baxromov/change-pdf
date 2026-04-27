@@ -15,7 +15,7 @@ import sys
 
 from dotenv import load_dotenv
 from qdrant_client import QdrantClient
-from qdrant_client.models import Distance, PointStruct, VectorParams
+from qdrant_client.models import Distance, PointStruct, SparseVectorParams, VectorParams
 
 load_dotenv()
 
@@ -76,8 +76,9 @@ def main() -> None:
     # Read source vector config
     info = client.get_collection(SOURCE)
     vectors_config = info.config.params.vectors
+    sparse_vectors_config = info.config.params.sparse_vectors  # None if no sparse vectors
 
-    # Build VectorParams for target (supports both named and unnamed vectors)
+    # Build dense VectorParams for target (supports both named and unnamed vectors)
     if isinstance(vectors_config, dict):
         target_vectors = {
             name: VectorParams(size=cfg.size, distance=cfg.distance)
@@ -90,7 +91,11 @@ def main() -> None:
         )
 
     if TARGET not in existing:
-        client.create_collection(TARGET, vectors_config=target_vectors)
+        client.create_collection(
+            TARGET,
+            vectors_config=target_vectors,
+            sparse_vectors_config=sparse_vectors_config,  # carry over sparse vector config
+        )
         print(f'Created collection "{TARGET}".')
 
     existing_ids: set = set()
