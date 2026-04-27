@@ -1,40 +1,41 @@
-(change-pdf) PS C:\Users\bakhromovshb\Projects\change-pdf> python .\migrate_collection.py
-Traceback (most recent call last):
-  File "C:\Users\bakhromovshb\Projects\change-pdf\migrate_collection.py", line 17, in <module>
-    from qdrant_client import QdrantClient
-ModuleNotFoundError: No module named 'qdrant_client'
-(change-pdf) PS C:\Users\bakhromovshb\Projects\change-pdf> python -m migrate_collection
-Traceback (most recent call last):
-  File "<frozen runpy>", line 198, in _run_module_as_main
-  File "<frozen runpy>", line 88, in _run_code
-  File "C:\Users\bakhromovshb\Projects\change-pdf\migrate_collection.py", line 17, in <module>
-    from qdrant_client import QdrantClient
-ModuleNotFoundError: No module named 'qdrant_client'
-(change-pdf) PS C:\Users\bakhromovshb\Projects\change-pdf> pip install qdrant-client
-Requirement already satisfied: qdrant-client in c:\users\bakhromovshb\appdata\local\python\pythoncore-3.14-64\lib\site-packages (1.17.1)
-Requirement already satisfied: grpcio>=1.41.0 in c:\users\bakhromovshb\appdata\local\python\pythoncore-3.14-64\lib\site-packages (from qdrant-client) (1.80.0)
-Requirement already satisfied: httpx>=0.20.0 in c:\users\bakhromovshb\appdata\local\python\pythoncore-3.14-64\lib\site-packages (from httpx[http2]>=0.20.0->qdrant-client) (0.28.1)
-Requirement already satisfied: numpy>=2.3.0 in c:\users\bakhromovshb\appdata\local\python\pythoncore-3.14-64\lib\site-packages (from qdrant-client) (2.4.4)
-Requirement already satisfied: portalocker<4.0,>=2.7.0 in c:\users\bakhromovshb\appdata\local\python\pythoncore-3.14-64\lib\site-packages (from qdrant-client) (3.2.0)
-Requirement already satisfied: protobuf>=3.20.0 in c:\users\bakhromovshb\appdata\local\python\pythoncore-3.14-64\lib\site-packages (from qdrant-client) (7.34.1)
-Requirement already satisfied: pydantic!=2.0.*,!=2.1.*,!=2.2.0,>=1.10.8 in c:\users\bakhromovshb\appdata\local\python\pythoncore-3.14-64\lib\site-packages (from qdrant-client) (2.13.3)
-Requirement already satisfied: urllib3<3,>=1.26.14 in c:\users\bakhromovshb\appdata\local\python\pythoncore-3.14-64\lib\site-packages (from qdrant-client) (2.6.3)
-Requirement already satisfied: pywin32>=226 in c:\users\bakhromovshb\appdata\local\python\pythoncore-3.14-64\lib\site-packages (from portalocker<4.0,>=2.7.0->qdrant-client) (311)
-Requirement already satisfied: typing-extensions~=4.12 in c:\users\bakhromovshb\appdata\local\python\pythoncore-3.14-64\lib\site-packages (from grpcio>=1.41.0->qdrant-client) (4.15.0)
-Requirement already satisfied: anyio in c:\users\bakhromovshb\appdata\local\python\pythoncore-3.14-64\lib\site-packages (from httpx>=0.20.0->httpx[http2]>=0.20.0->qdrant-client) (4.13.0)
-Requirement already satisfied: certifi in c:\users\bakhromovshb\appdata\local\python\pythoncore-3.14-64\lib\site-packages (from httpx>=0.20.0->httpx[http2]>=0.20.0->qdrant-client) (2026.4.22)
-Requirement already satisfied: httpcore==1.* in c:\users\bakhromovshb\appdata\local\python\pythoncore-3.14-64\lib\site-packages (from httpx>=0.20.0->httpx[http2]>=0.20.0->qdrant-client) (1.0.9)
-Requirement already satisfied: idna in c:\users\bakhromovshb\appdata\local\python\pythoncore-3.14-64\lib\site-packages (from httpx>=0.20.0->httpx[http2]>=0.20.0->qdrant-client) (3.13)
-Requirement already satisfied: h11>=0.16 in c:\users\bakhromovshb\appdata\local\python\pythoncore-3.14-64\lib\site-packages (from httpcore==1.*->httpx>=0.20.0->httpx[http2]>=0.20.0->qdrant-client) (0.16.0)
-Requirement already satisfied: h2<5,>=3 in c:\users\bakhromovshb\appdata\local\python\pythoncore-3.14-64\lib\site-packages (from httpx[http2]>=0.20.0->qdrant-client) (4.3.0)
-Requirement already satisfied: hyperframe<7,>=6.1 in c:\users\bakhromovshb\appdata\local\python\pythoncore-3.14-64\lib\site-packages (from h2<5,>=3->httpx[http2]>=0.20.0->qdrant-client) (6.1.0)
-Requirement already satisfied: hpack<5,>=4.1 in c:\users\bakhromovshb\appdata\local\python\pythoncore-3.14-64\lib\site-packages (from h2<5,>=3->httpx[http2]>=0.20.0->qdrant-client) (4.1.0)
-Requirement already satisfied: annotated-types>=0.6.0 in c:\users\bakhromovshb\appdata\local\python\pythoncore-3.14-64\lib\site-packages (from pydantic!=2.0.*,!=2.1.*,!=2.2.0,>=1.10.8->qdrant-client) (0.7.0)
-Requirement already satisfied: pydantic-core==2.46.3 in c:\users\bakhromovshb\appdata\local\python\pythoncore-3.14-64\lib\site-packages (from pydantic!=2.0.*,!=2.1.*,!=2.2.0,>=1.10.8->qdrant-client) (2.46.3)
-Requirement already satisfied: typing-inspection>=0.4.2 in c:\users\bakhromovshb\appdata\local\python\pythoncore-3.14-64\lib\site-packages (from pydantic!=2.0.*,!=2.1.*,!=2.2.0,>=1.10.8->qdrant-client) (0.4.2)
-
-[notice] A new release of pip is available: 25.3 -> 26.1
-[notice] To update, run: C:\Users\bakhromovshb\AppData\Local\Python\pythoncore-3.14-64\python.exe -m pip install --upgrade pip
+(change-pdf) PS C:\Users\bakhromovshb\Projects\change-pdf> pip list
+Package           Version
+----------------- ---------
+annotated-doc     0.0.4
+annotated-types   0.7.0
+anyio             4.13.0
+certifi           2026.4.22
+click             8.3.3
+colorama          0.4.6
+fastapi           0.136.1
+grpcio            1.80.0
+h11               0.16.0
+h2                4.3.0
+hpack             4.1.0
+httpcore          1.0.9
+httptools         0.7.1
+httpx             0.28.1
+hyperframe        6.1.0
+idna              3.13
+numpy             2.4.4
+pip               25.3
+portalocker       3.2.0
+protobuf          7.34.1
+pydantic          2.13.3
+pydantic_core     2.46.3
+PyMuPDF           1.25.5
+python-dotenv     1.2.2
+python-multipart  0.0.27
+pywin32           311
+PyYAML            6.0.3
+qdrant-client     1.17.1
+starlette         1.0.0
+typing_extensions 4.15.0
+typing-inspection 0.4.2
+urllib3           2.6.3
+uvicorn           0.46.0
+watchfiles        1.1.1
+websockets        16.0
 (change-pdf) PS C:\Users\bakhromovshb\Projects\change-pdf> python .\migrate_collection.py
 Traceback (most recent call last):
   File "C:\Users\bakhromovshb\Projects\change-pdf\migrate_collection.py", line 17, in <module>
