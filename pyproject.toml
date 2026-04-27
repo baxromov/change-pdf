@@ -1,0 +1,18 @@
+[project]
+name = "change-pdf"
+version = "0.1.0"
+description = "PDF word finder, redactor, and replacer"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "fastapi",
+    "uvicorn[standard]",
+    "pymupdf",
+    "python-multipart",
+]
+
+[tool.uv]
+dev-dependencies = []
+
+[project.scripts]
+start = "uvicorn main:app --host 0.0.0.0 --port 8000 --reload"

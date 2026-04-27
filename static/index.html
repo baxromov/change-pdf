@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PDF Word Editor</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background: #0f172a;
+      color: #e2e8f0;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+    }
+
+    .card {
+      background: #1e293b;
+      border-radius: 16px;
+      padding: 40px;
+      width: 100%;
+      max-width: 560px;
+      box-shadow: 0 25px 50px rgba(0,0,0,.5);
+      border: 1px solid #334155;
+    }
+
+    h1 {
+      font-size: 1.6rem;
+      font-weight: 700;
+      margin-bottom: 6px;
+      background: linear-gradient(135deg, #60a5fa, #a78bfa);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .subtitle {
+      color: #94a3b8;
+      font-size: .875rem;
+      margin-bottom: 32px;
+    }
+
+    label {
+      display: block;
+      font-size: .8rem;
+      font-weight: 600;
+      color: #94a3b8;
+      text-transform: uppercase;
+      letter-spacing: .05em;
+      margin-bottom: 6px;
+    }
+
+    .field { margin-bottom: 20px; }
+
+    .drop-zone {
+      border: 2px dashed #334155;
+      border-radius: 10px;
+      padding: 28px;
+      text-align: center;
+      cursor: pointer;
+      transition: border-color .2s, background .2s;
+      position: relative;
+    }
+    .drop-zone:hover, .drop-zone.drag-over {
+      border-color: #60a5fa;
+      background: rgba(96,165,250,.05);
+    }
+    .drop-zone input[type="file"] {
+      position: absolute; inset: 0; opacity: 0; cursor: pointer; width: 100%; height: 100%;
+    }
+    .drop-zone .icon { font-size: 2rem; margin-bottom: 8px; }
+    .drop-zone .hint { color: #64748b; font-size: .8rem; }
+    .drop-zone .file-name { color: #60a5fa; font-size: .9rem; font-weight: 600; margin-top: 6px; }
+
+    input[type="text"] {
+      width: 100%;
+      padding: 10px 14px;
+      background: #0f172a;
+      border: 1px solid #334155;
+      border-radius: 8px;
+      color: #e2e8f0;
+      font-size: .95rem;
+      outline: none;
+      transition: border-color .2s;
+    }
+    input[type="text"]:focus { border-color: #60a5fa; }
+
+    .action-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+    }
+    .action-btn {
+      padding: 12px 8px;
+      border-radius: 8px;
+      border: 2px solid #334155;
+      background: #0f172a;
+      color: #94a3b8;
+      font-size: .8rem;
+      font-weight: 600;
+      cursor: pointer;
+      text-align: center;
+      transition: all .2s;
+    }
+    .action-btn:hover { border-color: #475569; color: #cbd5e1; }
+    .action-btn.selected { border-color: #60a5fa; color: #60a5fa; background: rgba(96,165,250,.1); }
+    .action-btn .emoji { display: block; font-size: 1.4rem; margin-bottom: 4px; }
+
+    #replacementField { transition: max-height .3s, opacity .3s; max-height: 80px; opacity: 1; overflow: hidden; }
+    #replacementField.hidden { max-height: 0; opacity: 0; pointer-events: none; }
+
+    .checkbox-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: .875rem;
+      color: #94a3b8;
+      cursor: pointer;
+    }
+    .checkbox-row input { accent-color: #60a5fa; width: 16px; height: 16px; cursor: pointer; }
+
+    .btn-primary {
+      width: 100%;
+      padding: 14px;
+      background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+      border: none;
+      border-radius: 10px;
+      color: #fff;
+      font-size: 1rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: opacity .2s, transform .1s;
+      margin-top: 8px;
+    }
+    .btn-primary:hover:not(:disabled) { opacity: .9; transform: translateY(-1px); }
+    .btn-primary:disabled { opacity: .5; cursor: not-allowed; transform: none; }
+
+    .btn-count {
+      width: 100%;
+      padding: 10px;
+      background: transparent;
+      border: 1px solid #334155;
+      border-radius: 8px;
+      color: #94a3b8;
+      font-size: .875rem;
+      cursor: pointer;
+      margin-top: 10px;
+      transition: border-color .2s, color .2s;
+    }
+    .btn-count:hover:not(:disabled) { border-color: #60a5fa; color: #60a5fa; }
+    .btn-count:disabled { opacity: .4; cursor: not-allowed; }
+
+    .status {
+      margin-top: 20px;
+      padding: 14px 16px;
+      border-radius: 8px;
+      font-size: .875rem;
+      display: none;
+    }
+    .status.info    { background: rgba(96,165,250,.1);  border: 1px solid #3b82f6; color: #93c5fd; display: block; }
+    .status.success { background: rgba(34,197,94,.1);   border: 1px solid #22c55e; color: #86efac;  display: block; }
+    .status.error   { background: rgba(239,68,68,.1);   border: 1px solid #ef4444; color: #fca5a5;  display: block; }
+
+    .spinner {
+      display: inline-block;
+      width: 14px; height: 14px;
+      border: 2px solid rgba(255,255,255,.3);
+      border-top-color: #fff;
+      border-radius: 50%;
+      animation: spin .6s linear infinite;
+      margin-right: 8px;
+      vertical-align: middle;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+  </style>
+</head>
+<body>
+<div class="card">
+  <h1>PDF Word Editor</h1>
+  <p class="subtitle">Find a word in any PDF and redact, replace, or highlight it.</p>
+
+  <div class="field">
+    <label>PDF File</label>
+    <div class="drop-zone" id="dropZone">
+      <input type="file" id="fileInput" accept=".pdf" />
+      <div class="icon">📄</div>
+      <div>Drop your PDF here or <strong style="color:#60a5fa">browse</strong></div>
+      <div class="hint">Only .pdf files</div>
+      <div class="file-name" id="fileName"></div>
+    </div>
+  </div>
+
+  <div class="field">
+    <label>Word to find</label>
+    <input type="text" id="wordInput" placeholder="e.g. confidential" />
+  </div>
+
+  <div class="field">
+    <label>Action</label>
+    <div class="action-grid">
+      <div class="action-btn selected" data-action="redact">
+        <span class="emoji">⬛</span>Redact
+      </div>
+      <div class="action-btn" data-action="replace">
+        <span class="emoji">✏️</span>Replace
+      </div>
+      <div class="action-btn" data-action="highlight">
+        <span class="emoji">🟡</span>Highlight
+      </div>
+    </div>
+  </div>
+
+  <div class="field" id="replacementField" class="hidden" style="display:none">
+    <label>Replacement text</label>
+    <input type="text" id="replacementInput" placeholder="Leave empty to blank it out" />
+  </div>
+
+  <div class="field">
+    <label class="checkbox-row">
+      <input type="checkbox" id="caseSensitive" />
+      Case sensitive search
+    </label>
+  </div>
+
+  <button class="btn-primary" id="processBtn">Process PDF</button>
+  <button class="btn-count" id="countBtn">Count occurrences only</button>
+
+  <div class="status" id="status"></div>
+</div>
+
+<script>
+  let selectedAction = "redact";
+
+  // Action buttons
+  document.querySelectorAll(".action-btn").forEach(btn => {
+    btn.addEventListener("click", () => {
+      document.querySelectorAll(".action-btn").forEach(b => b.classList.remove("selected"));
+      btn.classList.add("selected");
+      selectedAction = btn.dataset.action;
+      const rf = document.getElementById("replacementField");
+      rf.style.display = selectedAction === "replace" ? "block" : "none";
+    });
+  });
+
+  // Drop zone
+  const dropZone = document.getElementById("dropZone");
+  const fileInput = document.getElementById("fileInput");
+
+  dropZone.addEventListener("dragover", e => { e.preventDefault(); dropZone.classList.add("drag-over"); });
+  dropZone.addEventListener("dragleave", () => dropZone.classList.remove("drag-over"));
+  dropZone.addEventListener("drop", e => {
+    e.preventDefault();
+    dropZone.classList.remove("drag-over");
+    if (e.dataTransfer.files[0]) {
+      fileInput.files = e.dataTransfer.files;
+      updateFileName(e.dataTransfer.files[0].name);
+    }
+  });
+  fileInput.addEventListener("change", () => {
+    if (fileInput.files[0]) updateFileName(fileInput.files[0].name);
+  });
+  function updateFileName(name) {
+    document.getElementById("fileName").textContent = "✓ " + name;
+  }
+
+  // Status helper
+  function showStatus(msg, type) {
+    const el = document.getElementById("status");
+    el.className = "status " + type;
+    el.innerHTML = msg;
+  }
+
+  // Process
+  document.getElementById("processBtn").addEventListener("click", async () => {
+    const file = fileInput.files[0];
+    const word = document.getElementById("wordInput").value.trim();
+    if (!file) return showStatus("Please select a PDF file.", "error");
+    if (!word) return showStatus("Please enter a word to search for.", "error");
+
+    const btn = document.getElementById("processBtn");
+    btn.disabled = true;
+    btn.innerHTML = '<span class="spinner"></span>Processing…';
+    showStatus("Uploading and processing your PDF…", "info");
+
+    const fd = new FormData();
+    fd.append("file", file);
+    fd.append("word", word);
+    fd.append("action", selectedAction);
+    fd.append("replacement", document.getElementById("replacementInput")?.value || "");
+    fd.append("case_sensitive", document.getElementById("caseSensitive").checked);
+
+    try {
+      const res = await fetch("/process", { method: "POST", body: fd });
+      if (!res.ok) {
+        const err = await res.json();
+        showStatus("❌ " + (err.detail || "Unknown error"), "error");
+      } else {
+        const found = res.headers.get("X-Words-Found") || "?";
+        const blob = await res.blob();
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = "edited_" + file.name;
+        a.click();
+        URL.revokeObjectURL(url);
+        showStatus(`✅ Done! Found and processed <strong>${found}</strong> occurrence(s). Download started.`, "success");
+      }
+    } catch (e) {
+      showStatus("❌ Network error: " + e.message, "error");
+    } finally {
+      btn.disabled = false;
+      btn.innerHTML = "Process PDF";
+    }
+  });
+
+  // Count only
+  document.getElementById("countBtn").addEventListener("click", async () => {
+    const file = fileInput.files[0];
+    const word = document.getElementById("wordInput").value.trim();
+    if (!file) return showStatus("Please select a PDF file.", "error");
+    if (!word) return showStatus("Please enter a word to search for.", "error");
+
+    const btn = document.getElementById("countBtn");
+    btn.disabled = true;
+    btn.textContent = "Counting…";
+    showStatus("Scanning PDF…", "info");
+
+    const fd = new FormData();
+    fd.append("file", file);
+    fd.append("word", word);
+
+    try {
+      const res = await fetch("/count", { method: "POST", body: fd });
+      const data = await res.json();
+      if (!res.ok) {
+        showStatus("❌ " + (data.detail || "Unknown error"), "error");
+      } else if (data.total === 0) {
+        showStatus(`🔍 "<strong>${word}</strong>" was not found in the PDF.`, "error");
+      } else {
+        const pages = data.pages.map(p => `page ${p.page} (${p.count}×)`).join(", ");
+        showStatus(`🔍 Found <strong>${data.total}</strong> occurrence(s) of "<strong>${word}</strong>": ${pages}`, "success");
+      }
+    } catch (e) {
+      showStatus("❌ Network error: " + e.message, "error");
+    } finally {
+      btn.disabled = false;
+      btn.textContent = "Count occurrences only";
+    }
+  });
+</script>
+</body>
+</html>
