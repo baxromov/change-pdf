@@ -3,6 +3,7 @@ import streamlit as st
 from dotenv import load_dotenv
 from minio import Minio
 from qdrant_client import QdrantClient
+from qdrant_client.models import FieldCondition, Filter, MatchValue
 
 load_dotenv()
 
@@ -51,15 +52,15 @@ def get_chunks_for_file(source_file: str):
     client = get_qdrant()
     results, _ = client.scroll(
         collection_name=QDRANT_COLLECTION,
-        scroll_filter={
-            "must": [
-                {
-                    "key": "metadata.source_file",
-                    "match": {"value": source_file},
-                }
+        scroll_filter=Filter(
+            must=[
+                FieldCondition(
+                    key="metadata.source_file",
+                    match=MatchValue(value=source_file),
+                )
             ]
-        },
-        limit=1000,
+        ),
+        limit=10000,
         with_payload=True,
         with_vectors=False,
     )
@@ -80,6 +81,19 @@ def get_chunks_for_file(source_file: str):
     return chunks
 
 
+@st.cache_data(ttl=60)
+def debug_sample(source_file: str):
+    """Return first 3 raw payloads without any filter for debugging."""
+    client = get_qdrant()
+    results, _ = client.scroll(
+        collection_name=QDRANT_COLLECTION,
+        limit=3,
+        with_payload=True,
+        with_vectors=False,
+    )
+    return [pt.payload for pt in results]
+
+
 # ── UI ────────────────────────────────────────────────────────────────────────
 st.set_page_config(page_title="PDF Chunk Explorer", layout="wide")
 st.title("PDF Chunk Explorer")
@@ -91,6 +105,7 @@ with st.sidebar:
     if st.button("Refresh", use_container_width=True):
         list_minio_files.clear()
         get_chunks_for_file.clear()
+        debug_sample.clear()
 
     files = list_minio_files()
     if not files:
@@ -105,6 +120,16 @@ st.subheader(f"`{selected_file}`")
 chunks = get_chunks_for_file(selected_file)
 if not chunks:
     st.warning("No chunks found in Qdrant for this file.")
+    with st.expander("Debug — raw sample payloads from collection"):
+        samples = debug_sample(selected_file)
+        if samples:
+            st.json(samples)
+            st.info(
+                "Check that `metadata.source_file` in the payload matches "
+                f"the MinIO filename `{selected_file}` exactly."
+            )
+        else:
+            st.error(f"Collection `{QDRANT_COLLECTION}` is empty or unreachable.")
     st.stop()
 
 pages = sorted({c["page_number"] for c in chunks})
