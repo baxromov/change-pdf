@@ -55,24 +55,7 @@ def list_minio_files():
         return []
 
 
-@st.cache_data(ttl=60)
-def get_chunks_for_file(minio_object: str):
-    """Filter by metadata.minio_object which stores the full MinIO path."""
-    client = get_qdrant()
-    results, _ = client.scroll(
-        collection_name=QDRANT_COLLECTION,
-        scroll_filter=Filter(
-            must=[
-                FieldCondition(
-                    key="metadata.minio_object",
-                    match=MatchValue(value=minio_object),
-                )
-            ]
-        ),
-        limit=10000,
-        with_payload=True,
-        with_vectors=False,
-    )
+def _parse_chunks(results, minio_object):
     chunks = []
     for pt in results:
         p = pt.payload or {}
@@ -89,6 +72,37 @@ def get_chunks_for_file(minio_object: str):
         )
     chunks.sort(key=lambda c: c["page_number"])
     return chunks
+
+
+@st.cache_data(ttl=60)
+def get_chunks_for_file(minio_object: str):
+    client = get_qdrant()
+
+    # Primary: match by full minio_object path
+    results, _ = client.scroll(
+        collection_name=QDRANT_COLLECTION,
+        scroll_filter=Filter(must=[
+            FieldCondition(key="metadata.minio_object", match=MatchValue(value=minio_object))
+        ]),
+        limit=10000,
+        with_payload=True,
+        with_vectors=False,
+    )
+    if results:
+        return _parse_chunks(results, minio_object)
+
+    # Fallback: MinIO may store file under a temp name — match by doc_id (UUID prefix)
+    doc_id = minio_object.split("/")[0]
+    results, _ = client.scroll(
+        collection_name=QDRANT_COLLECTION,
+        scroll_filter=Filter(must=[
+            FieldCondition(key="metadata.doc_id", match=MatchValue(value=doc_id))
+        ]),
+        limit=10000,
+        with_payload=True,
+        with_vectors=False,
+    )
+    return _parse_chunks(results, minio_object)
 
 
 @st.cache_data(ttl=300)
