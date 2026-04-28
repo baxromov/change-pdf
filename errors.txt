@@ -1,7 +1,7 @@
 PDF Chunk Explorer
 MinIO bucket: hr-assistant · Qdrant collection: hr-assistant-v2
 
-02d67349-1c1b-46e3-92df-9b587e38701b/ENG_ЕДИНЫЙ СТАНДАРТ РАБОТЫ.pdf
+03f901d6-c4e9-4077-9b50-0cac18700571/1. Annex №1 (Категории работников).pdf
 No chunks found in Qdrant for this file.
 
 Debug — raw sample payloads from collection
@@ -35,4 +35,4 @@ Debug — raw sample payloads from collection
 }
 }
 ]
-Check that metadata.source_file in the payload matches the MinIO filename 02d67349-1c1b-46e3-92df-9b587e38701b/ENG_ЕДИНЫЙ СТАНДАРТ РАБОТЫ.pdf exactly.
+Check that metadata.source_file in the payload matches the MinIO filename 03f901d6-c4e9-4077-9b50-0cac18700571/1. Annex №1 (Категории работников).pdf exactly.
