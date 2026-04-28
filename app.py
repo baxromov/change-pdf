@@ -209,11 +209,21 @@ with col_pdf:
             st.image(img, use_container_width=True)
         else:
             b64 = base64.b64encode(pdf_bytes).decode()
-            iframe_html = (
-                f'<iframe src="data:application/pdf;base64,{b64}#page={current_page}" '
-                f'width="100%" height="800px" style="border:none;"></iframe>'
-            )
-            st.components.v1.html(iframe_html, height=820, scrolling=False)
+            blob_html = f"""
+<iframe id="pdfviewer" width="100%" height="800px" style="border:none;"></iframe>
+<script>
+(function() {{
+    var b64 = "{b64}";
+    var binary = atob(b64);
+    var arr = new Uint8Array(binary.length);
+    for (var i = 0; i < binary.length; i++) arr[i] = binary.charCodeAt(i);
+    var blob = new Blob([arr], {{type: "application/pdf"}});
+    var url = URL.createObjectURL(blob);
+    document.getElementById("pdfviewer").src = url + "#page={current_page}";
+}})();
+</script>
+"""
+            st.components.v1.html(blob_html, height=820, scrolling=False)
     else:
         st.warning("PDF yuklab bo'lmadi.")
 
