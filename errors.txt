@@ -1,38 +1,21 @@
-PDF Chunk Explorer
-MinIO bucket: hr-assistant · Qdrant collection: hr-assistant-v2
+(change-pdf) PS C:\Users\bakhromovshb\Projects\change-pdf> .\deploy_shared_ai.ps1
+>>> Project: LookOver  (http://172.31.174.11:8585)
+=== 1. Stopping containers on server ===
+bash: line 1: cd: /home/bakhromovshb/LookOver: No such file or directory
+=== 2. Backing up old deploy ===
+=== 3. Uploading project (excluding .venv, __pycache__, data) ===
+rsync : Имя "rsync" не распознано как имя командлета, функции, файла сценария или выполняемой программы. Проверьте правильность написания имени, а также наличие и правильность пути, по
+сле чего повторите попытку.
+C:\Users\bakhromovshb\Projects\change-pdf\deploy_shared_ai.ps1:30 знак:5
++     rsync -avz --delete `
++     ~~~~~
+    + CategoryInfo          : ObjectNotFound: (rsync:String) [], CommandNotFoundException
+    + FullyQualifiedErrorId : CommandNotFoundException
 
-e50489b5-ecc1-4f31-9230-f94ed15ca2b1/tmptp7zdpqb.pdf
-No chunks found in Qdrant for this file.
+=== 4. Building Docker image on server ===
+bash: line 1: cd: /home/bakhromovshb/LookOver: No such file or directory
+=== 5. Starting containers ===
+bash: line 1: cd: /home/bakhromovshb/LookOver: No such file or directory
 
-Debug — raw sample payloads from collection
-
-[
-0:{
-"page_content":"Structured conversation\nCommunication should be logical: from greeting and\nclarifying the purpose of the conversation to the essence\nof the issue and a clear summary and farewell. Focus\non\nsolving\nthe\ncustomer's problem\nThe main goal is to help the customer and resolve their\nissue. The consultant is results-oriented, provides specific\nsolutions, and does not engage in general discussions. Emotional control\nIn any situation, the consultant remains calm and friendly,\neven if the customer shows irritation or negativity. Compliance\nwith\nregulations\nThe consultant must follow the bank's internal standards,\nincluding regulations on handling complaints, products,\nand providing information. 2. Requirements for verbal, non-verbal and paralinguistic signals in telephone\ncommunication\nThe correct use of speech and voice signals helps consultants sound confident,\nprofessional and trustworthy to customers. Although customers cannot see consultants\non the phone, intonation, tone and speed of speech play a decisive role. Basic requirements:\nTypes of signals\nRequirements\nVerbal signals\nUse polite phrases: "Please," "Would you mind," "May I\nclarify,"\n"Thank\nyou\nfor\nwaiting."\nSpeak clearly and concisely, avoiding complex or specific\nterms. Start the conversation with a greeting and introduction:\n"Hello,\nmy\nname\nis\n...,\nMortgage\nBank."\nBe sure to address the customer by name during the\nconversation. Confirm information: "Am I correct in understanding that\nyou need...?", "Have I understood you correctly?"\nParalinguistic signals\nUse a friendly and welcoming tone, even if the customer is\nneutral. Speak at a moderate pace: do not rush or drag out words. Approximately\n100-120\nwords\nper\nminute. Speak confidently, avoid phrases that express doubt: "I\nthink...", "Probably...", "It seems like...". Instead, say: "Let\nme\nclarify",\n"The\ncorrect\ninformation\nis...". Be clear and articulate, do not slur your words."
-"metadata":{
-"page_number":69
-"minio_object":"02d67349-1c1b-46e3-92df-9b587e38701b/ENG_ЕДИНЫЙ СТАНДАРТ РАБОТЫ.pdf"
-"doc_id":"02d67349-1c1b-46e3-92df-9b587e38701b"
-"source_file":"ENG_ЕДИНЫЙ СТАНДАРТ РАБОТЫ.pdf"
-}
-}
-1:{
-"page_content":"BATAFSIL QOIDALAR\nIII.1. Komplaens ning asosiy sohalari\n(22) Komplaens direksiyasi tomonidan\nnazorat qilinadigan (to'g'ridan-to'g'ri yoki\nasosiy egasi sifatida) Komplaens risklari\norasida asosiy xavf sohalari quyidagilardir. III.1.1. To’g’rilik (Integrity)\nIII.1.1.1. Manfaatlar to’qnashuvi, etika\n(23) Bank manfaatlar to’qnashuvi va etika\nbo'yicha qoidalarni ishlab chiqadi va\namalga oshiradi, va u o'zining barcha\nmenejerlari va nazorat tashkilotlaridan bu\nqoidalar buzilishiga qarshi qat'iy choralar\nko'rishni talab qiladi. III.1.1.1.1. Manfaatlar\nto’qnashuvi\nqoidalari\n(24)\nBank\no'z\nxodimlari\nva\nuning\nboshqaruv organlari a'zolarining shaxsiy\nmanfaatlari Bank va uning mijozlarining\nIII. DETAILED PROVISIONS\nIII.1. Key areas of compliance\n(22) Among the compliance risks controlled\n(directly or as primary owner) by the Compliance\nDirectorate, the key risk areas are the following. III.1.1. Integrity\nIII.1.1.1. Conflicts of interest, ethics\n(23) The Bank develops and enforces rules on\nconflicts of interest and ethics, with a demand for\nall managers and control organisations to take\nfirm action against any breach of those rules. III.1.1.1.1. Conflict of Interest Regulation\n(24) The Bank has a vested business interest and\na statutory obligation in ensuring that the personal\ninterests of its employees and of members of its\nmanagement bodies are not in conflict with the\nbusiness interests and commitments of the Bank\nand its customers, and that the Bankidentifies,\nprevents and manages the conflicts of interest\nrelated to its various activities, and regulates and\nensures the assessment of suppliers’ compliance"
-"metadata":{
-"page_number":14
-"minio_object":"e937944c-1f0f-44b3-8975-797fc316f656/Комплаенс политика.pdf"
-"doc_id":"e937944c-1f0f-44b3-8975-797fc316f656"
-"source_file":"Комплаенс политика.pdf"
-}
-}
-2:{
-"page_content":"Нажать «Создать новый документ»\n3. Выбрать тип документа\n4. Выбрать нужный документ из списка». 5. Указать/написать тему документа\n6. Загрузить сам документ (при необходимости)\n7. Прикрепить файлы (при необходимости)\n8. В разделе «Согласовано» указать всех\nработников Банка, кем должен быть согласован\nдокумент\n9. В разделе «Утверждено» указать работников\nБанка, кем должен быть утвержден документ\n10. В разделе «Исполнитель заявки» указать\nисполнителей документа\n11. В разделе «Наблюдатели (в копии)» указать\nпричастных работников Банка (при\nнеобходимости)\n12. Указать срок рассмотрения\n13. Выбрать язык подготовки документа\nВ ожидании"
-"metadata":{
-"page_number":3
-"minio_object":"7df1f12c-ba34-4beb-9bc4-dbeceb2e1a96/Инструкция ЭДО.pdf"
-"doc_id":"7df1f12c-ba34-4beb-9bc4-dbeceb2e1a96"
-"source_file":"Инструкция ЭДО.pdf"
-}
-}
-]
-Check that metadata.minio_object in the payload matches the MinIO object name e50489b5-ecc1-4f31-9230-f94ed15ca2b1/tmptp7zdpqb.pdf exactly.
+вњ… Deployment done: http://172.31.174.11:8585
+(change-pdf) PS C:\Users\bakhromovshb\Projects\change-pdf>
