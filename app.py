@@ -209,21 +209,41 @@ with col_pdf:
             st.image(img, use_container_width=True)
         else:
             b64 = base64.b64encode(pdf_bytes).decode()
-            blob_html = f"""
-<iframe id="pdfviewer" width="100%" height="800px" style="border:none;"></iframe>
+            pdfjs_html = f"""
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+  body {{ margin:0; background:#525659; display:flex; justify-content:center; }}
+  canvas {{ display:block; box-shadow:0 2px 8px rgba(0,0,0,0.4); }}
+</style>
+</head>
+<body>
+<canvas id="c"></canvas>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
 <script>
-(function() {{
-    var b64 = "{b64}";
-    var binary = atob(b64);
-    var arr = new Uint8Array(binary.length);
-    for (var i = 0; i < binary.length; i++) arr[i] = binary.charCodeAt(i);
-    var blob = new Blob([arr], {{type: "application/pdf"}});
-    var url = URL.createObjectURL(blob);
-    document.getElementById("pdfviewer").src = url + "#page={current_page}";
-}})();
+pdfjsLib.GlobalWorkerOptions.workerSrc =
+  "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js";
+
+var raw = atob("{b64}");
+var arr = new Uint8Array(raw.length);
+for (var i = 0; i < raw.length; i++) arr[i] = raw.charCodeAt(i);
+
+pdfjsLib.getDocument({{data: arr}}).promise.then(function(pdf) {{
+  pdf.getPage({current_page}).then(function(page) {{
+    var vp = page.getViewport({{scale: 1.5}});
+    var canvas = document.getElementById("c");
+    canvas.width  = vp.width;
+    canvas.height = vp.height;
+    canvas.style.width = "100%";
+    page.render({{canvasContext: canvas.getContext("2d"), viewport: vp}});
+  }});
+}});
 </script>
+</body>
+</html>
 """
-            st.components.v1.html(blob_html, height=820, scrolling=False)
+            st.components.v1.html(pdfjs_html, height=850, scrolling=True)
     else:
         st.warning("PDF yuklab bo'lmadi.")
 
