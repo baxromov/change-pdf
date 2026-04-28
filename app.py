@@ -197,15 +197,27 @@ with st.sidebar:
         st.info("No files found in MinIO bucket.")
         st.stop()
 
-    selected_file = st.radio(
-        "Select a file",
-        files,
-        format_func=lambda f: f.split("/", 1)[-1],
-        label_visibility="collapsed",
-    )
+    if "selected_file_key" not in st.session_state or st.session_state.selected_file_key not in files:
+        st.session_state.selected_file_key = files[0]
+
+    st.markdown("---")
+    for f in files:
+        label = f.split("/", 1)[-1]
+        is_active = f == st.session_state.selected_file_key
+        if st.button(
+            label,
+            key=f"btn_{f}",
+            use_container_width=True,
+            type="primary" if is_active else "secondary",
+        ):
+            st.session_state.selected_file_key = f
+            st.session_state.page_idx = 0
+            st.rerun()
+
+    selected_file = st.session_state.selected_file_key
 
 # Main: pages for the selected file
-st.subheader(f"`{selected_file}`")
+st.subheader(selected_file.split("/", 1)[-1])
 
 chunks = get_chunks_for_file(selected_file)
 if not chunks:
@@ -225,11 +237,8 @@ if not chunks:
 pages = sorted({c["page_number"] for c in chunks})
 st.write(f"**{len(chunks)} chunks** across **{len(pages)} pages**")
 
-# Page navigator — reset index when file changes
+# Page navigator
 col_prev, col_picker, col_next = st.columns([1, 3, 1])
-if st.session_state.get("active_file") != selected_file:
-    st.session_state.active_file = selected_file
-    st.session_state.page_idx = 0
 if st.session_state.page_idx >= len(pages):
     st.session_state.page_idx = 0
 
