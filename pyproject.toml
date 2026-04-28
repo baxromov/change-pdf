@@ -11,6 +11,8 @@ dependencies = [
     "python-multipart",
     "qdrant-client>=1.9",
     "python-dotenv>=1.0",
+    "minio>=7.0",
+    "streamlit>=1.35",
 ]
 
 [dependency-groups]
