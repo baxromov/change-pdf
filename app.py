@@ -48,15 +48,16 @@ def list_minio_files():
 
 
 @st.cache_data(ttl=60)
-def get_chunks_for_file(source_file: str):
+def get_chunks_for_file(minio_object: str):
+    """Filter by metadata.minio_object which stores the full MinIO path."""
     client = get_qdrant()
     results, _ = client.scroll(
         collection_name=QDRANT_COLLECTION,
         scroll_filter=Filter(
             must=[
                 FieldCondition(
-                    key="metadata.source_file",
-                    match=MatchValue(value=source_file),
+                    key="metadata.minio_object",
+                    match=MatchValue(value=minio_object),
                 )
             ]
         ),
@@ -73,7 +74,8 @@ def get_chunks_for_file(source_file: str):
                 "id": pt.id,
                 "page_number": meta.get("page_number", 0),
                 "doc_id": meta.get("doc_id", ""),
-                "source_file": meta.get("source_file", source_file),
+                "source_file": meta.get("source_file", minio_object),
+                "minio_object": meta.get("minio_object", minio_object),
                 "page_content": p.get("page_content", ""),
             }
         )
@@ -125,8 +127,8 @@ if not chunks:
         if samples:
             st.json(samples)
             st.info(
-                "Check that `metadata.source_file` in the payload matches "
-                f"the MinIO filename `{selected_file}` exactly."
+                "Check that `metadata.minio_object` in the payload matches "
+                f"the MinIO object name `{selected_file}` exactly."
             )
         else:
             st.error(f"Collection `{QDRANT_COLLECTION}` is empty or unreachable.")
