@@ -15,7 +15,7 @@ import sys
 
 from dotenv import load_dotenv
 from qdrant_client import QdrantClient
-from qdrant_client.models import Distance, PointStruct, SparseVectorParams, VectorParams
+from qdrant_client.models import Distance, PointStruct, SparseVector, SparseVectorParams, VectorParams
 
 load_dotenv()
 
@@ -51,6 +51,28 @@ def get_client() -> QdrantClient:
     return QdrantClient(url=url, api_key=api_key)
 
 
+def _detect_sparse_config(client: QdrantClient) -> dict[str, SparseVectorParams] | None:
+    """Peek at the first point in SOURCE to discover sparse vector names."""
+    results, _ = client.scroll(
+        collection_name=SOURCE,
+        limit=1,
+        with_vectors=True,
+        with_payload=False,
+    )
+    if not results:
+        return None
+    vec = results[0].vector
+    if not isinstance(vec, dict):
+        return None
+    sparse_names = [
+        name for name, v in vec.items()
+        if isinstance(v, SparseVector)
+    ]
+    if not sparse_names:
+        return None
+    return {name: SparseVectorParams() for name in sparse_names}
+
+
 def main() -> None:
     client = get_client()
 
@@ -70,11 +92,21 @@ def main() -> None:
             name: VectorParams(size=cfg.size, distance=cfg.distance)
             for name, cfg in vectors_config.items()
         }
+        target_dense_names: set[str] = set(target_vectors.keys())
     else:
         target_vectors = VectorParams(
             size=vectors_config.size,
             distance=vectors_config.distance,
         )
+        target_dense_names = set()  # unnamed / default vector
+
+    # Build sparse VectorParams — detect from actual points if API returns None
+    if sparse_vectors_config is None:
+        sparse_vectors_config = _detect_sparse_config(client)
+
+    target_sparse_names: set[str] = (
+        set(sparse_vectors_config.keys()) if sparse_vectors_config else set()
+    )
 
     # If target already exists, skip if complete or recreate if incomplete
     if TARGET in existing:
@@ -123,8 +155,15 @@ def main() -> None:
                 if cleaned_text != original:
                     modified += 1
                 payload['page_content'] = cleaned_text
+
+            # Filter vectors to only names that exist in the target collection
+            vec = pt.vector
+            if isinstance(vec, dict) and (target_dense_names or target_sparse_names):
+                allowed = target_dense_names | target_sparse_names
+                vec = {k: v for k, v in vec.items() if k in allowed}
+
             cleaned_points.append(
-                PointStruct(id=pt.id, vector=pt.vector, payload=payload)
+                PointStruct(id=pt.id, vector=vec, payload=payload)
             )
 
         if cleaned_points:
