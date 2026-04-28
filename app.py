@@ -1,3 +1,4 @@
+import base64
 import os
 
 try:
@@ -201,15 +202,20 @@ col_pdf, col_chunks = st.columns([1, 1])
 
 with col_pdf:
     st.markdown("**PDF sahifasi**")
-    if not FITZ_AVAILABLE:
-        st.info("PDF ko'rinishi mavjud emas (PyMuPDF yuklanmadi).")
-    else:
-        pdf_bytes = get_pdf_bytes(selected_file)
-        if pdf_bytes:
+    pdf_bytes = get_pdf_bytes(selected_file)
+    if pdf_bytes:
+        if FITZ_AVAILABLE:
             img = render_pdf_page(pdf_bytes, current_page)
             st.image(img, use_container_width=True)
         else:
-            st.warning("PDF yuklab bo'lmadi.")
+            b64 = base64.b64encode(pdf_bytes).decode()
+            iframe_html = (
+                f'<iframe src="data:application/pdf;base64,{b64}#page={current_page}" '
+                f'width="100%" height="800px" style="border:none;"></iframe>'
+            )
+            st.components.v1.html(iframe_html, height=820, scrolling=False)
+    else:
+        st.warning("PDF yuklab bo'lmadi.")
 
 with col_chunks:
     st.markdown(f"**Chunks ({len(page_chunks)} ta)**")
