@@ -1,21 +1,210 @@
 (change-pdf) PS C:\Users\bakhromovshb\Projects\change-pdf> .\deploy_shared_ai.ps1
->>> Project: LookOver  (http://172.31.174.11:8585)
+>>> Project: look-over  (http://172.31.174.11:8585)
 === 1. Stopping containers on server ===
-bash: line 1: cd: /home/bakhromovshb/LookOver: No such file or directory
+bash: line 1: cd: /home/bakhromovshb/look-over: No such file or directory
 === 2. Backing up old deploy ===
 === 3. Uploading project (excluding .venv, __pycache__, data) ===
-rsync : Имя "rsync" не распознано как имя командлета, функции, файла сценария или выполняемой программы. Проверьте правильность написания имени, а также наличие и правильность пути, по
-сле чего повторите попытку.
-C:\Users\bakhromovshb\Projects\change-pdf\deploy_shared_ai.ps1:30 знак:5
-+     rsync -avz --delete `
-+     ~~~~~
-    + CategoryInfo          : ObjectNotFound: (rsync:String) [], CommandNotFoundException
-    + FullyQualifiedErrorId : CommandNotFoundException
-
+look-over_deploy.tar.gz                                                                                                                                100%   14KB  13.9KB/s   00:00
 === 4. Building Docker image on server ===
-bash: line 1: cd: /home/bakhromovshb/LookOver: No such file or directory
+ Image look-over-streamlit Building
+#1 [internal] load local bake definitions
+#1 reading from stdin 548B done
+#1 DONE 0.0s
+
+#2 [internal] load build definition from Dockerfile
+#2 transferring dockerfile: 381B done
+#2 DONE 0.0s
+
+#3 [internal] load metadata for docker.io/library/python:3.12-slim
+#3 DONE 2.5s
+
+#4 [internal] load .dockerignore
+#4 transferring context: 191B done
+#4 DONE 0.0s
+
+#5 [internal] load build context
+#5 transferring context: 42.24kB done
+#5 DONE 0.1s
+
+#6 [1/5] FROM docker.io/library/python:3.12-slim@sha256:46cb7cc2877e60fbd5e21a9ae6115c30ace7a077b9f8772da879e4590c18c2e3
+#6 resolve docker.io/library/python:3.12-slim@sha256:46cb7cc2877e60fbd5e21a9ae6115c30ace7a077b9f8772da879e4590c18c2e3 0.0s done
+#6 sha256:3fc9d9ab5045181fbd49d1d30a2dbad144172d4c3c141f70117ddb0b918d8357 0B / 248B 0.2s
+#6 sha256:4d873bcef452ab1c054b9a0f25ace04a446c558a7b925aed2fc5bc21533e0f65 0B / 12.10MB 0.2s
+#6 sha256:cb8c0a9140ac107575972113eb5fd2e6c3cdddc592371a5ac31c4623dcb13d5d 0B / 1.29MB 0.2s
+#6 sha256:3531af2bc2a9c8883754652783cf96207d53189db279c9637b7157d034de7ecd 0B / 29.78MB 0.2s
+#6 sha256:3fc9d9ab5045181fbd49d1d30a2dbad144172d4c3c141f70117ddb0b918d8357 248B / 248B 0.4s done
+#6 sha256:4d873bcef452ab1c054b9a0f25ace04a446c558a7b925aed2fc5bc21533e0f65 2.10MB / 12.10MB 1.2s
+#6 sha256:4d873bcef452ab1c054b9a0f25ace04a446c558a7b925aed2fc5bc21533e0f65 7.34MB / 12.10MB 1.4s
+#6 sha256:cb8c0a9140ac107575972113eb5fd2e6c3cdddc592371a5ac31c4623dcb13d5d 1.29MB / 1.29MB 1.2s done
+#6 sha256:4d873bcef452ab1c054b9a0f25ace04a446c558a7b925aed2fc5bc21533e0f65 11.53MB / 12.10MB 1.5s
+#6 sha256:4d873bcef452ab1c054b9a0f25ace04a446c558a7b925aed2fc5bc21533e0f65 12.10MB / 12.10MB 1.6s done
+#6 sha256:3531af2bc2a9c8883754652783cf96207d53189db279c9637b7157d034de7ecd 7.34MB / 29.78MB 1.7s
+#6 sha256:3531af2bc2a9c8883754652783cf96207d53189db279c9637b7157d034de7ecd 13.63MB / 29.78MB 1.8s
+#6 sha256:3531af2bc2a9c8883754652783cf96207d53189db279c9637b7157d034de7ecd 15.73MB / 29.78MB 2.0s
+#6 sha256:3531af2bc2a9c8883754652783cf96207d53189db279c9637b7157d034de7ecd 23.07MB / 29.78MB 2.1s
+#6 sha256:3531af2bc2a9c8883754652783cf96207d53189db279c9637b7157d034de7ecd 27.26MB / 29.78MB 2.3s
+#6 sha256:3531af2bc2a9c8883754652783cf96207d53189db279c9637b7157d034de7ecd 29.78MB / 29.78MB 2.4s done
+#6 extracting sha256:3531af2bc2a9c8883754652783cf96207d53189db279c9637b7157d034de7ecd
+#6 extracting sha256:3531af2bc2a9c8883754652783cf96207d53189db279c9637b7157d034de7ecd 0.5s done
+#6 DONE 3.0s
+
+#6 [1/5] FROM docker.io/library/python:3.12-slim@sha256:46cb7cc2877e60fbd5e21a9ae6115c30ace7a077b9f8772da879e4590c18c2e3
+#6 extracting sha256:cb8c0a9140ac107575972113eb5fd2e6c3cdddc592371a5ac31c4623dcb13d5d 0.1s done
+#6 extracting sha256:4d873bcef452ab1c054b9a0f25ace04a446c558a7b925aed2fc5bc21533e0f65
+#6 extracting sha256:4d873bcef452ab1c054b9a0f25ace04a446c558a7b925aed2fc5bc21533e0f65 0.3s done
+#6 DONE 3.4s
+
+#6 [1/5] FROM docker.io/library/python:3.12-slim@sha256:46cb7cc2877e60fbd5e21a9ae6115c30ace7a077b9f8772da879e4590c18c2e3
+#6 extracting sha256:3fc9d9ab5045181fbd49d1d30a2dbad144172d4c3c141f70117ddb0b918d8357 0.0s done
+#6 DONE 3.4s
+
+#7 [2/5] WORKDIR /app
+#7 DONE 0.2s
+
+#8 [3/5] COPY requirements.txt .
+#8 DONE 0.0s
+
+#9 [4/5] RUN pip install --no-cache-dir -r requirements.txt
+#9 1.702 Ignoring colorama: markers 'sys_platform == "win32"' don't match your environment
+#9 1.702 Ignoring pywin32: markers 'sys_platform == "win32"' don't match your environment
+#9 2.027 Collecting annotated-doc==0.0.4 (from -r requirements.txt (line 3))
+#9 2.340   Downloading annotated_doc-0.0.4-py3-none-any.whl.metadata (6.6 kB)
+#9 2.451 Collecting annotated-types==0.7.0 (from -r requirements.txt (line 5))
+#9 2.553   Downloading annotated_types-0.7.0-py3-none-any.whl.metadata (15 kB)
+#9 2.706 Collecting anyio==4.13.0 (from -r requirements.txt (line 7))
+#9 2.807   Downloading anyio-4.13.0-py3-none-any.whl.metadata (4.5 kB)
+#9 2.946 Collecting certifi==2026.4.22 (from -r requirements.txt (line 12))
+#9 3.047   Downloading certifi-2026.4.22-py3-none-any.whl.metadata (2.5 kB)
+#9 3.181 Collecting click==8.3.3 (from -r requirements.txt (line 16))
+#9 3.282   Downloading click-8.3.3-py3-none-any.whl.metadata (2.6 kB)
+#9 3.550 Collecting fastapi==0.136.1 (from -r requirements.txt (line 22))
+#9 3.652   Downloading fastapi-0.136.1-py3-none-any.whl.metadata (28 kB)
+#9 4.494 Collecting grpcio==1.80.0 (from -r requirements.txt (line 24))
+#9 4.596   Downloading grpcio-1.80.0-cp312-cp312-manylinux2014_x86_64.manylinux_2_17_x86_64.whl.metadata (3.8 kB)
+#9 4.705 Collecting h11==0.16.0 (from -r requirements.txt (line 26))
+#9 4.807   Downloading h11-0.16.0-py3-none-any.whl.metadata (8.3 kB)
+#9 4.921 Collecting h2==4.3.0 (from -r requirements.txt (line 30))
+#9 5.022   Downloading h2-4.3.0-py3-none-any.whl.metadata (5.1 kB)
+#9 5.139 Collecting hpack==4.1.0 (from -r requirements.txt (line 32))
+#9 5.243   Downloading hpack-4.1.0-py3-none-any.whl.metadata (4.6 kB)
+#9 5.359 Collecting httpcore==1.0.9 (from -r requirements.txt (line 34))
+#9 5.460   Downloading httpcore-1.0.9-py3-none-any.whl.metadata (21 kB)
+#9 5.603 Collecting httptools==0.7.1 (from -r requirements.txt (line 36))
+#9 5.705   Downloading httptools-0.7.1-cp312-cp312-manylinux1_x86_64.manylinux_2_28_x86_64.manylinux_2_5_x86_64.whl.metadata (3.5 kB)
+#9 5.819 Collecting httpx==0.28.1 (from -r requirements.txt (line 38))
+#9 5.921   Downloading httpx-0.28.1-py3-none-any.whl.metadata (7.1 kB)
+#9 6.034 Collecting hyperframe==6.1.0 (from -r requirements.txt (line 40))
+#9 6.137   Downloading hyperframe-6.1.0-py3-none-any.whl.metadata (4.3 kB)
+#9 6.251 Collecting idna==3.13 (from -r requirements.txt (line 42))
+#9 6.354   Downloading idna-3.13-py3-none-any.whl.metadata (8.0 kB)
+#9 6.633 Collecting numpy==2.4.4 (from -r requirements.txt (line 46))
+#9 6.736   Downloading numpy-2.4.4-cp312-cp312-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl.metadata (6.6 kB)
+#9 6.849 Collecting portalocker==3.2.0 (from -r requirements.txt (line 48))
+#9 6.953   Downloading portalocker-3.2.0-py3-none-any.whl.metadata (8.7 kB)
+#9 7.220 Collecting protobuf==7.34.1 (from -r requirements.txt (line 50))
+#9 7.321   Downloading protobuf-7.34.1-cp310-abi3-manylinux2014_x86_64.whl.metadata (595 bytes)
+#9 7.538 Collecting pydantic==2.13.3 (from -r requirements.txt (line 52))
+#9 7.639   Downloading pydantic-2.13.3-py3-none-any.whl.metadata (108 kB)
+#9 8.532 Collecting pydantic-core==2.46.3 (from -r requirements.txt (line 56))
+#9 8.637   Downloading pydantic_core-2.46.3-cp312-cp312-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (6.6 kB)
+#9 8.848 Collecting pymupdf==1.25.5 (from -r requirements.txt (line 58))
+#9 8.951   Downloading pymupdf-1.25.5-cp39-abi3-manylinux2014_x86_64.manylinux_2_17_x86_64.whl.metadata (3.4 kB)
+#9 9.061 Collecting python-dotenv==1.2.2 (from -r requirements.txt (line 60))
+#9 9.164   Downloading python_dotenv-1.2.2-py3-none-any.whl.metadata (27 kB)
+#9 9.282 Collecting python-multipart==0.0.27 (from -r requirements.txt (line 64))
+#9 9.383   Downloading python_multipart-0.0.27-py3-none-any.whl.metadata (2.1 kB)
+#9 9.507 Collecting pyyaml==6.0.3 (from -r requirements.txt (line 68))
+#9 9.609   Downloading pyyaml-6.0.3-cp312-cp312-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl.metadata (2.4 kB)
+#9 9.728 Collecting qdrant-client==1.17.1 (from -r requirements.txt (line 70))
+#9 9.831   Downloading qdrant_client-1.17.1-py3-none-any.whl.metadata (11 kB)
+#9 9.955 Collecting starlette==1.0.0 (from -r requirements.txt (line 72))
+#9 10.06   Downloading starlette-1.0.0-py3-none-any.whl.metadata (6.3 kB)
+#9 10.17 Collecting typing-extensions==4.15.0 (from -r requirements.txt (line 74))
+#9 10.27   Downloading typing_extensions-4.15.0-py3-none-any.whl.metadata (3.3 kB)
+#9 10.38 Collecting typing-inspection==0.4.2 (from -r requirements.txt (line 83))
+#9 10.48   Downloading typing_inspection-0.4.2-py3-none-any.whl.metadata (2.6 kB)
+#9 10.60 Collecting urllib3==2.6.3 (from -r requirements.txt (line 87))
+#9 10.70   Downloading urllib3-2.6.3-py3-none-any.whl.metadata (6.9 kB)
+#9 10.82 Collecting uvicorn==0.46.0 (from -r requirements.txt (line 89))
+#9 10.92   Downloading uvicorn-0.46.0-py3-none-any.whl.metadata (6.7 kB)
+#9 11.05 Collecting uvloop==0.22.1 (from -r requirements.txt (line 91))
+#9 11.15   Downloading uvloop-0.22.1-cp312-cp312-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl.metadata (4.9 kB)
+#9 11.31 Collecting watchfiles==1.1.1 (from -r requirements.txt (line 93))
+#9 11.41   Downloading watchfiles-1.1.1-cp312-cp312-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (4.9 kB)
+#9 11.57 Collecting websockets==16.0 (from -r requirements.txt (line 95))
+#9 11.68   Downloading websockets-16.0-cp312-cp312-manylinux1_x86_64.manylinux_2_28_x86_64.manylinux_2_5_x86_64.whl.metadata (6.8 kB)
+#9 11.93 Downloading annotated_doc-0.0.4-py3-none-any.whl (5.3 kB)
+#9 12.03 Downloading annotated_types-0.7.0-py3-none-any.whl (13 kB)
+#9 12.13 Downloading anyio-4.13.0-py3-none-any.whl (114 kB)
+#9 12.27 Downloading certifi-2026.4.22-py3-none-any.whl (135 kB)
+#9 12.40 Downloading click-8.3.3-py3-none-any.whl (110 kB)
+#9 12.52 Downloading fastapi-0.136.1-py3-none-any.whl (117 kB)
+#9 12.64 Downloading grpcio-1.80.0-cp312-cp312-manylinux2014_x86_64.manylinux_2_17_x86_64.whl (6.8 MB)
+#9 13.11    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 6.8/6.8 MB 17.9 MB/s eta 0:00:00
+#9 13.21 Downloading h11-0.16.0-py3-none-any.whl (37 kB)
+#9 13.31 Downloading h2-4.3.0-py3-none-any.whl (61 kB)
+#9 13.41 Downloading hpack-4.1.0-py3-none-any.whl (34 kB)
+#9 13.51 Downloading httpcore-1.0.9-py3-none-any.whl (78 kB)
+#9 13.61 Downloading httptools-0.7.1-cp312-cp312-manylinux1_x86_64.manylinux_2_28_x86_64.manylinux_2_5_x86_64.whl (517 kB)
+#9 13.72 Downloading httpx-0.28.1-py3-none-any.whl (73 kB)
+#9 13.82 Downloading hyperframe-6.1.0-py3-none-any.whl (13 kB)
+#9 13.92 Downloading idna-3.13-py3-none-any.whl (68 kB)
+#9 14.03 Downloading numpy-2.4.4-cp312-cp312-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl (16.6 MB)
+#9 14.74    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 16.6/16.6 MB 23.0 MB/s eta 0:00:00
+#9 14.84 Downloading portalocker-3.2.0-py3-none-any.whl (22 kB)
+#9 14.95 Downloading protobuf-7.34.1-cp310-abi3-manylinux2014_x86_64.whl (324 kB)
+#9 15.05 Downloading pydantic-2.13.3-py3-none-any.whl (471 kB)
+#9 15.17 Downloading pydantic_core-2.46.3-cp312-cp312-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (2.1 MB)
+#9 15.23    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 2.1/2.1 MB 35.0 MB/s eta 0:00:00
+#9 15.33 Downloading pymupdf-1.25.5-cp39-abi3-manylinux2014_x86_64.manylinux_2_17_x86_64.whl (20.0 MB)
+#9 16.07    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 20.0/20.0 MB 26.9 MB/s eta 0:00:00
+#9 16.17 Downloading python_dotenv-1.2.2-py3-none-any.whl (22 kB)
+#9 16.27 Downloading python_multipart-0.0.27-py3-none-any.whl (29 kB)
+#9 16.38 Downloading pyyaml-6.0.3-cp312-cp312-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl (807 kB)
+#9 16.40    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 807.9/807.9 kB 45.7 MB/s eta 0:00:00
+#9 16.50 Downloading qdrant_client-1.17.1-py3-none-any.whl (389 kB)
+#9 16.61 Downloading starlette-1.0.0-py3-none-any.whl (72 kB)
+#9 16.72 Downloading typing_extensions-4.15.0-py3-none-any.whl (44 kB)
+#9 16.82 Downloading typing_inspection-0.4.2-py3-none-any.whl (14 kB)
+#9 16.92 Downloading urllib3-2.6.3-py3-none-any.whl (131 kB)
+#9 17.03 Downloading uvicorn-0.46.0-py3-none-any.whl (70 kB)
+#9 17.13 Downloading uvloop-0.22.1-cp312-cp312-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl (4.4 MB)
+#9 17.28    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 4.4/4.4 MB 30.1 MB/s eta 0:00:00
+#9 17.38 Downloading watchfiles-1.1.1-cp312-cp312-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (456 kB)
+#9 17.50 Downloading websockets-16.0-cp312-cp312-manylinux1_x86_64.manylinux_2_28_x86_64.manylinux_2_5_x86_64.whl (184 kB)
+#9 17.65 Installing collected packages: websockets, uvloop, urllib3, typing-extensions, pyyaml, python-multipart, python-dotenv, pymupdf, protobuf, portalocker, numpy, idna, hyperframe, httptools, hpack, h11, click, certifi, annotated-types, annotated-doc, uvicorn, typing-inspection, pydantic-core, httpcore, h2, grpcio, anyio, watchfiles, starlette, pydantic, httpx, fastapi, qdrant-client
+#9 22.94 Successfully installed annotated-doc-0.0.4 annotated-types-0.7.0 anyio-4.13.0 certifi-2026.4.22 click-8.3.3 fastapi-0.136.1 grpcio-1.80.0 h11-0.16.0 h2-4.3.0 hpack-4.1.0 httpcore-1.0.9 httptools-0.7.1 httpx-0.28.1 hyperframe-6.1.0 idna-3.13 numpy-2.4.4 portalocker-3.2.0 protobuf-7.34.1 pydantic-2.13.3 pydantic-core-2.46.3 pymupdf-1.25.5 python-dotenv-1.2.2 python-multipart-0.0.27 pyyaml-6.0.3 qdrant-client-1.17.1 starlette-1.0.0 typing-extensions-4.15.0 typing-inspection-0.4.2 urllib3-2.6.3 uvicorn-0.46.0 uvloop-0.22.1 watchfiles-1.1.1 websockets-16.0
+#9 22.94 WARNING: Running pip as the 'root' user can result in broken permissions and conflicting behaviour with the system package manager, possibly rendering your system unusable. It is recommended to use a virtual environment instead: https://pip.pypa.io/warnings/venv. Use the --root-user-action option if you know what you are doing and want to suppress this warning.
+#9 23.32
+#9 23.32 [notice] A new release of pip is available: 25.0.1 -> 26.1
+#9 23.32 [notice] To update, run: pip install --upgrade pip
+#9 DONE 23.7s
+
+#10 [5/5] COPY . .
+#10 DONE 0.1s
+
+#11 exporting to image
+#11 exporting layers
+#11 exporting layers 8.4s done
+#11 exporting manifest sha256:bb8b11f959a4513b4c861a86c89faad074af79ee719167c07a3699bf07954b2a done
+#11 exporting config sha256:14e2dd5374d150098be7ebb22777234fe40a5a76a5a4ee9adfae11de8ec44e11 done
+#11 exporting attestation manifest sha256:8f6759df1b7ee5dd40f2861616f5756184f8fcb2a265ea3c9939214cb2199063 0.0s done
+#11 exporting manifest list sha256:38adc55da6b2fce6b04aac28d503d5c7c8c643a0fc7989a532ba3bff5e42a89f done
+#11 naming to docker.io/library/look-over-streamlit:latest done
+#11 unpacking to docker.io/library/look-over-streamlit:latest
+#11 unpacking to docker.io/library/look-over-streamlit:latest 1.1s done
+#11 DONE 9.6s
+
+#12 resolving provenance for metadata file
+#12 DONE 0.0s
+ Image look-over-streamlit Built
 === 5. Starting containers ===
-bash: line 1: cd: /home/bakhromovshb/LookOver: No such file or directory
+ Network look-over_default Creating
+ Network look-over_default Created
+ Container look-over-streamlit-1 Creating
+ Container look-over-streamlit-1 Created
+ Container look-over-streamlit-1 Starting
+Error response from daemon: failed to create task for container: failed to create shim task: OCI runtime create failed: runc create failed: unable to start container process: error during container init: exec: "streamlit": executable file not found in $PATH
 
 вњ… Deployment done: http://172.31.174.11:8585
 (change-pdf) PS C:\Users\bakhromovshb\Projects\change-pdf>
