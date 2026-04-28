@@ -1,4 +1,6 @@
 import os
+
+import fitz  # PyMuPDF
 import streamlit as st
 from dotenv import load_dotenv
 from minio import Minio
@@ -83,6 +85,32 @@ def get_chunks_for_file(minio_object: str):
     return chunks
 
 
+@st.cache_data(ttl=300)
+def get_pdf_bytes(minio_object: str) -> bytes | None:
+    client = get_minio()
+    try:
+        response = client.get_object(MINIO_BUCKET, minio_object)
+        data = response.read()
+        response.close()
+        return data
+    except Exception as e:
+        st.error(f"MinIO PDF error: {e}")
+        return None
+
+
+def render_pdf_page(pdf_bytes: bytes, page_number: int, dpi: int = 150) -> bytes:
+    """Render a PDF page (0-indexed internally, 1-indexed page_number) as PNG bytes."""
+    doc = fitz.open(stream=pdf_bytes, filetype="pdf")
+    page_idx = max(0, page_number - 1)
+    page_idx = min(page_idx, len(doc) - 1)
+    page = doc[page_idx]
+    mat = fitz.Matrix(dpi / 72, dpi / 72)
+    pix = page.get_pixmap(matrix=mat)
+    img_bytes = pix.tobytes("png")
+    doc.close()
+    return img_bytes
+
+
 @st.cache_data(ttl=60)
 def debug_sample(source_file: str):
     """Return first 3 raw payloads without any filter for debugging."""
@@ -164,18 +192,31 @@ st.markdown(f"### Page {current_page}  <sub>({st.session_state.page_idx + 1} / {
 
 page_chunks = [c for c in chunks if c["page_number"] == current_page]
 
-for i, chunk in enumerate(page_chunks, 1):
-    with st.expander(f"Chunk {i} — doc_id: `{chunk['doc_id']}`", expanded=True):
-        st.text_area(
-            "page_content",
-            value=chunk["page_content"],
-            height=200,
-            key=f"chunk_{chunk['id']}",
-            label_visibility="collapsed",
-        )
-        st.caption(
-            f"page_number: **{chunk['page_number']}** · "
-            f"doc_id: `{chunk['doc_id']}` · "
-            f"source_file: `{chunk['source_file']}` · "
-            f"point_id: `{chunk['id']}`"
-        )
+col_pdf, col_chunks = st.columns([1, 1])
+
+with col_pdf:
+    st.markdown("**PDF sahifasi**")
+    pdf_bytes = get_pdf_bytes(selected_file)
+    if pdf_bytes:
+        img = render_pdf_page(pdf_bytes, current_page)
+        st.image(img, use_container_width=True)
+    else:
+        st.warning("PDF yuklab bo'lmadi.")
+
+with col_chunks:
+    st.markdown(f"**Chunks ({len(page_chunks)} ta)**")
+    for i, chunk in enumerate(page_chunks, 1):
+        with st.expander(f"Chunk {i} — doc_id: `{chunk['doc_id']}`", expanded=True):
+            st.text_area(
+                "page_content",
+                value=chunk["page_content"],
+                height=200,
+                key=f"chunk_{chunk['id']}",
+                label_visibility="collapsed",
+            )
+            st.caption(
+                f"page_number: **{chunk['page_number']}** · "
+                f"doc_id: `{chunk['doc_id']}` · "
+                f"source_file: `{chunk['source_file']}` · "
+                f"point_id: `{chunk['id']}`"
+            )
