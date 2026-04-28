@@ -24,25 +24,23 @@ Write-Host "=== 2. Backing up old deploy ==="
 ssh "${ServerUser}@${ServerIP}" "[ -d ~/$ProjectName ] && mv ~/$ProjectName ~/${ProjectName}_backup_`$(date +%Y%m%d_%H%M) || true"
 
 Write-Host "=== 3. Uploading project (excluding .venv, __pycache__, data) ==="
-# Use rsync if available, otherwise fall back to scp with a tar pipe
-$rsyncAvail = ssh "${ServerUser}@${ServerIP}" "command -v rsync && echo yes || echo no"
-if ($rsyncAvail -match "yes") {
-    rsync -avz --delete `
-        --exclude=".venv/" `
-        --exclude="__pycache__/" `
-        --exclude="*.pyc" `
-        --exclude=".git/" `
-        --exclude="data/" `
-        --exclude="errors.txt" `
-        --exclude="uv.lock" `
-        "${LocalPath}/" "${ServerUser}@${ServerIP}:~/$ProjectName/"
-} else {
-    # tar locally, pipe over ssh — skips .venv and __pycache__
-    $tarExcludes = "--exclude=./.venv --exclude=./__pycache__ --exclude=./.git --exclude=./data --exclude=./errors.txt --exclude=./uv.lock"
-    $tarCmd = "tar czf - $tarExcludes -C `"$LocalPath`" ."
-    $sshCmd = "mkdir -p ~/$ProjectName && tar xzf - -C ~/$ProjectName"
-    cmd /c "$tarCmd | ssh ${ServerUser}@${ServerIP} `"$sshCmd`""
-}
+$TempArchive = "$env:TEMP\${ProjectName}_deploy.tar.gz"
+
+# tar.exe is built-in on Windows 10+
+tar -czf $TempArchive `
+    --exclude="./.venv" `
+    --exclude="./__pycache__" `
+    --exclude="./.git" `
+    --exclude="./data" `
+    --exclude="./errors.txt" `
+    --exclude="./uv.lock" `
+    -C "$LocalPath" .
+
+if ($LASTEXITCODE -ne 0) { Write-Error "tar arxiv yaratishda xato!"; exit 1 }
+
+scp $TempArchive "${ServerUser}@${ServerIP}:~/${ProjectName}_deploy.tar.gz"
+ssh "${ServerUser}@${ServerIP}" "mkdir -p ~/$ProjectName && tar xzf ~/${ProjectName}_deploy.tar.gz -C ~/$ProjectName && rm ~/${ProjectName}_deploy.tar.gz"
+Remove-Item $TempArchive -ErrorAction SilentlyContinue
 
 Write-Host "=== 4. Building Docker image on server ==="
 ssh "${ServerUser}@${ServerIP}" "cd ~/$ProjectName && docker compose build --no-cache"
