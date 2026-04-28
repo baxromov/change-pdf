@@ -197,7 +197,12 @@ with st.sidebar:
         st.info("No files found in MinIO bucket.")
         st.stop()
 
-    selected_file = st.radio("Select a file", files, label_visibility="collapsed")
+    selected_file = st.radio(
+        "Select a file",
+        files,
+        format_func=lambda f: f.split("/", 1)[-1],
+        label_visibility="collapsed",
+    )
 
 # Main: pages for the selected file
 st.subheader(f"`{selected_file}`")
