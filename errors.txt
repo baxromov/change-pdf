@@ -1,16 +1,19 @@
-ImportError: DLL load failed while importing _extra: Не найден указанный модуль.
-
-File "C:\Users\bakhromovshb\Projects\change-pdf\.venv\Lib\site-packages\streamlit\runtime\scriptrunner\exec_code.py", line 129, in exec_func_with_error_handling
-    result = func()
-File "C:\Users\bakhromovshb\Projects\change-pdf\.venv\Lib\site-packages\streamlit\runtime\scriptrunner\script_runner.py", line 689, in code_to_exec
-    exec(code, module.__dict__)  # noqa: S102
-    ~~~~^^^^^^^^^^^^^^^^^^^^^^^
-File "C:\Users\bakhromovshb\Projects\change-pdf\app.py", line 3, in <module>
-    import fitz  # PyMuPDF
-    ^^^^^^^^^^^
-File "C:\Users\bakhromovshb\Projects\change-pdf\.venv\Lib\site-packages\fitz\__init__.py", line 2, in <module>
-    from pymupdf import *
-File "C:\Users\bakhromovshb\Projects\change-pdf\.venv\Lib\site-packages\pymupdf\__init__.py", line 30, in <module>
-    from . import extra
-File "C:\Users\bakhromovshb\Projects\change-pdf\.venv\Lib\site-packages\pymupdf\extra.py", line 10, in <module>
-    from . import _extra
+isLength.Dot76Eow.js:1 Unrecognized feature: 'ambient-light-sensor'.
+ne @ isLength.Dot76Eow.js:1
+isLength.Dot76Eow.js:1 Unrecognized feature: 'battery'.
+ne @ isLength.Dot76Eow.js:1
+isLength.Dot76Eow.js:1 Unrecognized feature: 'document-domain'.
+ne @ isLength.Dot76Eow.js:1
+isLength.Dot76Eow.js:1 Unrecognized feature: 'layout-animations'.
+ne @ isLength.Dot76Eow.js:1
+isLength.Dot76Eow.js:1 Unrecognized feature: 'legacy-image-formats'.
+ne @ isLength.Dot76Eow.js:1
+isLength.Dot76Eow.js:1 Unrecognized feature: 'oversized-images'.
+ne @ isLength.Dot76Eow.js:1
+isLength.Dot76Eow.js:1 Unrecognized feature: 'vr'.
+ne @ isLength.Dot76Eow.js:1
+isLength.Dot76Eow.js:1 Unrecognized feature: 'wake-lock'.
+ne @ isLength.Dot76Eow.js:1
+about:srcdoc:1 An iframe which has both allow-scripts and allow-same-origin for its sandbox attribute can escape its sandboxing.
+about:srcdoc:1 An iframe which has both allow-scripts and allow-same-origin for its sandbox attribute can escape its sandboxing.
+(index):1 Not allowed to load local resource: blob:http://localhost:8501/2571a880-04c7-4911-99eb-392e6351c546#page=53
