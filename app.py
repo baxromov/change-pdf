@@ -171,9 +171,12 @@ if not chunks:
 pages = sorted({c["page_number"] for c in chunks})
 st.write(f"**{len(chunks)} chunks** across **{len(pages)} pages**")
 
-# Page navigator
+# Page navigator — reset index when file changes
 col_prev, col_picker, col_next = st.columns([1, 3, 1])
-if "page_idx" not in st.session_state:
+if st.session_state.get("active_file") != selected_file:
+    st.session_state.active_file = selected_file
+    st.session_state.page_idx = 0
+if st.session_state.page_idx >= len(pages):
     st.session_state.page_idx = 0
 
 with col_prev:
