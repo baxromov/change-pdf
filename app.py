@@ -1,4 +1,5 @@
 import base64
+import hashlib
 import os
 
 try:
@@ -14,6 +15,34 @@ from qdrant_client import QdrantClient
 from qdrant_client.models import FieldCondition, Filter, MatchValue
 
 load_dotenv()
+
+# ── Auth ──────────────────────────────────────────────────────────────────────
+APP_USERNAME = os.getenv("APP_USERNAME", "admin")
+APP_PASSWORD = os.getenv("APP_PASSWORD", "admin123")
+
+
+def _hash(s: str) -> str:
+    return hashlib.sha256(s.encode()).hexdigest()
+
+
+def login_page():
+    st.set_page_config(page_title="Login", layout="centered")
+    st.title("Kirish")
+    with st.form("login_form"):
+        username = st.text_input("Foydalanuvchi nomi")
+        password = st.text_input("Parol", type="password")
+        submitted = st.form_submit_button("Kirish", use_container_width=True)
+    if submitted:
+        if username == APP_USERNAME and _hash(password) == _hash(APP_PASSWORD):
+            st.session_state["authenticated"] = True
+            st.rerun()
+        else:
+            st.error("Foydalanuvchi nomi yoki parol noto'g'ri.")
+
+
+if not st.session_state.get("authenticated"):
+    login_page()
+    st.stop()
 
 # ── Config ────────────────────────────────────────────────────────────────────
 QDRANT_URL = os.getenv("QDRANT_URL", "http://localhost:6333")
@@ -152,10 +181,16 @@ st.caption(f"MinIO bucket: `{MINIO_BUCKET}` · Qdrant collection: `{QDRANT_COLLE
 # Sidebar: file list
 with st.sidebar:
     st.header("Files")
-    if st.button("Refresh", use_container_width=True):
-        list_minio_files.clear()
-        get_chunks_for_file.clear()
-        debug_sample.clear()
+    col_ref, col_out = st.columns(2)
+    with col_ref:
+        if st.button("Refresh", use_container_width=True):
+            list_minio_files.clear()
+            get_chunks_for_file.clear()
+            debug_sample.clear()
+    with col_out:
+        if st.button("Chiqish", use_container_width=True):
+            st.session_state.clear()
+            st.rerun()
 
     files = list_minio_files()
     if not files:
