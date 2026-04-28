@@ -1,15 +1,6 @@
 services:
   streamlit:
-    image: python:3.12-slim
-    working_dir: /app
-    volumes:
-      - .:/app
-    command: >
-      bash -c "pip install -r requirements.txt -q &&
-               streamlit run app.py
-               --server.port=8585
-               --server.address=0.0.0.0
-               --server.headless=true"
+    build: .
     ports:
       - "8585:8585"
     env_file:

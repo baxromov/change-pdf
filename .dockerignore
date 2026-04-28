@@ -1,0 +1,10 @@
+.venv/
+__pycache__/
+*.pyc
+*.pyo
+.git/
+data/
+errors.txt
+*.ps1
+uv.lock
+.env.example
