@@ -1,19 +1,29 @@
-isLength.Dot76Eow.js:1 Unrecognized feature: 'ambient-light-sensor'.
-ne @ isLength.Dot76Eow.js:1
-isLength.Dot76Eow.js:1 Unrecognized feature: 'battery'.
-ne @ isLength.Dot76Eow.js:1
-isLength.Dot76Eow.js:1 Unrecognized feature: 'document-domain'.
-ne @ isLength.Dot76Eow.js:1
-isLength.Dot76Eow.js:1 Unrecognized feature: 'layout-animations'.
-ne @ isLength.Dot76Eow.js:1
-isLength.Dot76Eow.js:1 Unrecognized feature: 'legacy-image-formats'.
-ne @ isLength.Dot76Eow.js:1
-isLength.Dot76Eow.js:1 Unrecognized feature: 'oversized-images'.
-ne @ isLength.Dot76Eow.js:1
-isLength.Dot76Eow.js:1 Unrecognized feature: 'vr'.
-ne @ isLength.Dot76Eow.js:1
-isLength.Dot76Eow.js:1 Unrecognized feature: 'wake-lock'.
-ne @ isLength.Dot76Eow.js:1
-about:srcdoc:1 An iframe which has both allow-scripts and allow-same-origin for its sandbox attribute can escape its sandboxing.
-about:srcdoc:1 An iframe which has both allow-scripts and allow-same-origin for its sandbox attribute can escape its sandboxing.
-(index):1 Not allowed to load local resource: blob:http://localhost:8501/2571a880-04c7-4911-99eb-392e6351c546#page=53
+streamlit.errors.StreamlitAPIException: Selectbox index must be greater than or equal to 0 and less than the length of options.
+
+File "C:\Users\bakhromovshb\Projects\change-pdf\.venv\Lib\site-packages\streamlit\runtime\scriptrunner\exec_code.py", line 129, in exec_func_with_error_handling
+    result = func()
+File "C:\Users\bakhromovshb\Projects\change-pdf\.venv\Lib\site-packages\streamlit\runtime\scriptrunner\script_runner.py", line 689, in code_to_exec
+    exec(code, module.__dict__)  # noqa: S102
+    ~~~~^^^^^^^^^^^^^^^^^^^^^^^
+File "C:\Users\bakhromovshb\Projects\change-pdf\app.py", line 188, in <module>
+    chosen_page = st.selectbox(
+        "Jump to page",
+    ...<2 lines>...
+        label_visibility="collapsed",
+    )
+File "C:\Users\bakhromovshb\Projects\change-pdf\.venv\Lib\site-packages\streamlit\runtime\metrics_util.py", line 563, in wrapped_func
+    result = non_optional_func(*args, **kwargs)
+File "C:\Users\bakhromovshb\Projects\change-pdf\.venv\Lib\site-packages\streamlit\elements\widgets\selectbox.py", line 554, in selectbox
+    return self._selectbox(
+           ~~~~~~~~~~~~~~~^
+        label=label,
+        ^^^^^^^^^^^^
+    ...<15 lines>...
+        ctx=ctx,
+        ^^^^^^^^
+    )
+    ^
+File "C:\Users\bakhromovshb\Projects\change-pdf\.venv\Lib\site-packages\streamlit\elements\widgets\selectbox.py", line 614, in _selectbox
+    raise StreamlitAPIException(
+    ...<2 lines>...
+    )
