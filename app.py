@@ -1,6 +1,11 @@
 import os
 
-import fitz  # PyMuPDF
+try:
+    import fitz  # PyMuPDF
+    FITZ_AVAILABLE = True
+except Exception:
+    FITZ_AVAILABLE = False
+
 import streamlit as st
 from dotenv import load_dotenv
 from minio import Minio
@@ -196,12 +201,15 @@ col_pdf, col_chunks = st.columns([1, 1])
 
 with col_pdf:
     st.markdown("**PDF sahifasi**")
-    pdf_bytes = get_pdf_bytes(selected_file)
-    if pdf_bytes:
-        img = render_pdf_page(pdf_bytes, current_page)
-        st.image(img, use_container_width=True)
+    if not FITZ_AVAILABLE:
+        st.info("PDF ko'rinishi mavjud emas (PyMuPDF yuklanmadi).")
     else:
-        st.warning("PDF yuklab bo'lmadi.")
+        pdf_bytes = get_pdf_bytes(selected_file)
+        if pdf_bytes:
+            img = render_pdf_page(pdf_bytes, current_page)
+            st.image(img, use_container_width=True)
+        else:
+            st.warning("PDF yuklab bo'lmadi.")
 
 with col_chunks:
     st.markdown(f"**Chunks ({len(page_chunks)} ta)**")
