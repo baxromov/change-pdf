@@ -1,50 +1,12 @@
-Files
+AttributeError: st.session_state has no attribute "page_idx". Did you forget to initialize it? More info: https://docs.streamlit.io/develop/concepts/architecture/session-state#initialization
 
-
-
-02d67349-1c1b-46e3-92df-9b587e38701b/ENG_ЕДИНЫЙ СТАНДАРТ РАБОТЫ.pdf
-
-
-03f901d6-c4e9-4077-9b50-0cac18700571/1. Annex №1 (Категории работников).pdf
-
-
-061c77fe-da78-478a-a6d9-ef8002447d83/Update Appendix 1 to regulation November_2025.pdf
-
-
-0a65c62c-70fc-4d4a-8ec2-f857913e230f/4. Annex №4 (Норма суточных).pdf
-
-
-0b02fc43-4ced-4253-a85d-ebdd97e0483d/Банк идей_положение_rus.pdf
-
-
-0b2b013d-2e43-4061-9796-dbd62d1f15ec/UZB_ЕДИНЫЙ_СТАНДАРТ_РАБОТЫ.pdf
-
-
-0d3198d0-947d-4099-816b-4c96afe44eb5/Положение о дисц.комиссиях.pdf
-
-
-19ec9de5-cb15-469d-832d-dce06638cfbf/7. Annex №7 (Норма такси).pdf
-
-
-19f4d5d9-379e-42af-990f-76bc8aa36bdc/RUS_Согласованный стандарт_13.08.2025.pdf
-
-
-1a12e638-3d68-4314-8ace-baf3830dad66/Манфаатлар тўқнашувининг олдини олиш ва бартараф этиш тўғрисида Тартиб.pdf
-
-
-24b57863-3c9f-463b-935c-bc5ff2485670/Положение о порядке выплаты бонусов за взыскание корпоративной задолженности в АКИБ «Ипотека-банк» от 30.06.2025 № 159.pdf
-
-
-26224b18-0efa-4d75-a880-eefa767ba595/3. Annex №3 (Матрица согласования).pdf
-
-
-273b18d3-dbd7-4209-b656-bef4644ca727/FAQ_по_ДМС.pdf
-
-
-2e33e433-d1db-47e4-9aa0-71a7adf8393d/3. Bonus scheme (KPI) for Retail Legal Colelction Department(Group).pdf
-
-
-2f03f3a0-ec4f-48df-b725-d1733a18ca7b/Etika kodeksiga ozgarishlar.pdf
-
-
-37c27861-8939-4abc-9a8f-f32be637dee3/Положение о генде
+File "C:\Users\bakhromovshb\Projects\change-pdf\.venv\Lib\site-packages\streamlit\runtime\scriptrunner\exec_code.py", line 129, in exec_func_with_error_handling
+    result = func()
+File "C:\Users\bakhromovshb\Projects\change-pdf\.venv\Lib\site-packages\streamlit\runtime\scriptrunner\script_runner.py", line 689, in code_to_exec
+    exec(code, module.__dict__)  # noqa: S102
+    ~~~~^^^^^^^^^^^^^^^^^^^^^^^
+File "C:\Users\bakhromovshb\Projects\change-pdf\app.py", line 242, in <module>
+    if st.session_state.page_idx >= len(pages):
+       ^^^^^^^^^^^^^^^^^^^^^^^^^
+File "C:\Users\bakhromovshb\Projects\change-pdf\.venv\Lib\site-packages\streamlit\runtime\state\session_state_proxy.py", line 132, in __getattr__
+    raise AttributeError(_missing_attr_error_message(key))
